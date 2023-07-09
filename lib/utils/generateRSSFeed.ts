@@ -1,5 +1,5 @@
 import fs from "fs";
-import { Feed, type FeedOptions } from "feed";
+import { Feed } from "feed";
 import { client } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { z } from "zod";
