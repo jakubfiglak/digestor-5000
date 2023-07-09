@@ -3,24 +3,29 @@ import { Feed, type FeedOptions } from "feed";
 import { client } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { z } from "zod";
+import { toHTML } from "@portabletext/to-html";
 
-const articlesListQuery = groq`*[_type == "article"] {
+const articlesQuery = groq`*[_type == "article"] {
   "id": _id,
   title,
   "slug": slug.current,
+  content,
+  "createdAt": _createdAt 
 }`;
 
-const articlesListSchema = z.array(
+const articlesSchema = z.array(
   z.object({
     id: z.string(),
     title: z.string(),
     slug: z.string(),
+    content: z.any(),
+    createdAt: z.string(),
   })
 );
 
-async function getArticlesList() {
-  const data = await client.fetch(articlesListQuery);
-  return articlesListSchema.parse(data);
+async function getArticles() {
+  const data = await client.fetch(articlesQuery);
+  return articlesSchema.parse(data);
 }
 
 export async function generateRssFeed() {
@@ -35,15 +40,16 @@ export async function generateRssFeed() {
     },
   });
 
-  const articles = await getArticlesList();
+  const articles = await getArticles();
 
   articles.forEach((article) => {
     feed.addItem({
       title: article.title,
-      id: `${process.env.SITE_URL}/blog/${article.slug}`,
+      id: article.slug,
       link: `${process.env.SITE_URL}/blog/${article.slug}`,
       description: article.title,
-      date: new Date(),
+      date: new Date(article.createdAt),
+      content: toHTML(article.content),
     });
   });
 
