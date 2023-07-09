@@ -1,5 +1,6 @@
 import { article } from "@/sanity/schemas/article";
 import { defineConfig } from "@sanity-typed/types";
+import { visionTool } from "@sanity/vision";
 import { deskTool } from "sanity/desk";
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!;
@@ -9,7 +10,7 @@ export default defineConfig({
   basePath: "/studio", // <-- important that `basePath` matches the route you're mounting your studio from, it applies to both `/pages` and `/app`
   projectId,
   dataset,
-  plugins: [deskTool()],
+  plugins: [deskTool(), visionTool()],
   schema: {
     types: [article],
   },
