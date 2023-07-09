@@ -1,10 +1,10 @@
 export default function Home() {
   return (
     <>
-      <h1 className="text-6xl font-bold text-center">
+      <h1 className="text-center text-6xl font-bold">
         Welcome to
         <br />
-        <span className="text-7xl bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent tracking-wider block -skew-y-6 mt-12">
+        <span className="mt-12 block -skew-y-6 bg-gradient-to-r from-secondary to-primary bg-clip-text text-7xl tracking-wider text-transparent">
           DIGESTOR 5000
         </span>
       </h1>
