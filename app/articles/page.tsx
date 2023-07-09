@@ -1,8 +1,9 @@
-import { generateRssFeed } from "@/lib/utils/generate-rss-feed";
-import { client } from "@/sanity/client";
-import { groq } from "next-sanity";
-import Link from "next/link";
-import { z } from "zod";
+import Link from 'next/link';
+import { groq } from 'next-sanity';
+import { z } from 'zod';
+
+import { generateRssFeed } from '@/lib/utils/generate-rss-feed';
+import { client } from '@/sanity/client';
 
 const articlesListQuery = groq`*[_type == "article"] {
   "id": _id,
@@ -29,13 +30,13 @@ const ArticlesPage = async () => {
 
   return (
     <>
-      <h1 className="text-4xl text-center mb-6 font-bold">Articles</h1>
+      <h1 className="mb-6 text-center text-4xl font-bold">Articles</h1>
       <ul>
         {articles.map(({ id, slug, title }) => (
           <li key={id}>
             <Link
               href={`/articles/${slug}`}
-              className="hover:text-secondary transition-colors"
+              className="transition-colors hover:text-secondary"
             >
               {title}
             </Link>

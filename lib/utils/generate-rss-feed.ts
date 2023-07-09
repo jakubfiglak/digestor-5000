@@ -1,10 +1,11 @@
-import fs from "fs";
-import { Feed } from "feed";
-import { client } from "@/sanity/client";
-import { groq } from "next-sanity";
-import { z } from "zod";
-import { toHTML } from "@portabletext/to-html";
-import { getSiteUrl } from "@/lib/utils/get-site-url";
+import { toHTML } from '@portabletext/to-html';
+import { Feed } from 'feed';
+import fs from 'fs';
+import { groq } from 'next-sanity';
+import { z } from 'zod';
+
+import { getSiteUrl } from '@/lib/utils/get-site-url';
+import { client } from '@/sanity/client';
 
 const articlesQuery = groq`*[_type == "article"] {
   "id": _id,
@@ -34,8 +35,8 @@ export async function generateRssFeed() {
 
   const feed = new Feed({
     id: siteUrl,
-    title: "Frontend Digest | RSS Feed",
-    description: "Welcome to Frontend Digest!",
+    title: 'Frontend Digest | RSS Feed',
+    description: 'Welcome to Frontend Digest!',
     link: siteUrl,
     copyright: `All rights reserved ${new Date().getFullYear()}, Frontend Digest`,
     feedLinks: {
@@ -56,5 +57,5 @@ export async function generateRssFeed() {
     });
   });
 
-  fs.writeFileSync("./public/rss.xml", feed.rss2());
+  fs.writeFileSync('./public/rss.xml', feed.rss2());
 }

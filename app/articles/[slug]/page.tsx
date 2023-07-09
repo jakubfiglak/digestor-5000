@@ -1,8 +1,9 @@
-import { client } from "@/sanity/client";
-import { PortableText } from "@portabletext/react";
-import { NextPage } from "next";
-import { groq } from "next-sanity";
-import { z } from "zod";
+import { PortableText } from '@portabletext/react';
+import { NextPage } from 'next';
+import { groq } from 'next-sanity';
+import { z } from 'zod';
+
+import { client } from '@/sanity/client';
 
 const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
   "id": _id,
@@ -34,22 +35,22 @@ const ArticlePage: NextPage<ArticlePageProps> = async ({
 
   return (
     <>
-      <h1 className="text-4xl text-center mb-6 font-bold">{article.title}</h1>
+      <h1 className="mb-6 text-center text-4xl font-bold">{article.title}</h1>
       <article>
         <PortableText
           value={article.content}
           components={{
             block: {
               h2: ({ children }) => (
-                <h2 className="text-2xl font-bold mb-4">{children}</h2>
+                <h2 className="mb-4 text-2xl font-bold">{children}</h2>
               ),
               h3: ({ children }) => (
-                <h3 className="text-xl font-bold mb-2">{children}</h3>
+                <h3 className="mb-2 text-xl font-bold">{children}</h3>
               ),
             },
             list: {
               bullet: ({ children }) => (
-                <ul className="list-disc list-inside mb-4">{children}</ul>
+                <ul className="mb-4 list-inside list-disc">{children}</ul>
               ),
             },
           }}
