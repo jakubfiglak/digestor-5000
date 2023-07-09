@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Frontend Digest | RSS Feed</title>
+        <link>localhost:3000</link>
+        <description>Welcome to Frontend Digest!</description>
+        <lastBuildDate>Sun, 09 Jul 2023 17:31:21 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <copyright>All rights reserved 2023, Frontend Digest</copyright>
+        <item>
+            <title><![CDATA[Test Article]]></title>
+            <link>localhost:3000/blog/test-article</link>
+            <guid>test-article</guid>
+            <pubDate>Fri, 23 Jun 2023 19:47:07 GMT</pubDate>
+            <description><![CDATA[Test Article]]></description>
+            <content:encoded><![CDATA[<h2>This is a test article</h2><h3>First paragraph</h3><ul><li>prop one</li><li>prop two</li><li>prop three</li></ul><h3>Second paragraph</h3><p><strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#x27;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[New Article]]></title>
+            <link>localhost:3000/blog/new-article</link>
+            <guid>new-article</guid>
+            <pubDate>Sun, 09 Jul 2023 17:05:40 GMT</pubDate>
+            <description><![CDATA[New Article]]></description>
+            <content:encoded><![CDATA[<h1>Hello there</h1><p>This is another test article.</p><h3>This is a heading</h3><p><code>this is text formatted as code</code></p><p><a href="https://www.google.pl/">This is a link to google</a></p>]]></content:encoded>
+        </item>
+    </channel>
+</rss>

@@ -1,3 +1,4 @@
+import { generateRssFeed } from "@/lib/utils/generate-rss-feed";
 import { client } from "@/sanity/client";
 import { groq } from "next-sanity";
 import Link from "next/link";
@@ -23,6 +24,7 @@ async function getArticlesList() {
 }
 
 const ArticlesPage = async () => {
+  await generateRssFeed();
   const articles = await getArticlesList();
 
   return (
