@@ -1,4 +1,4 @@
-import { generateRssFeed } from "@/lib/utils/generateRSSFeed";
+import { generateRssFeed } from "@/lib/utils/generate-rss-feed";
 import { client } from "@/sanity/client";
 import { groq } from "next-sanity";
 import Link from "next/link";

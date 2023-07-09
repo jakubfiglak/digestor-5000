@@ -4,6 +4,7 @@ import { client } from "@/sanity/client";
 import { groq } from "next-sanity";
 import { z } from "zod";
 import { toHTML } from "@portabletext/to-html";
+import { getSiteUrl } from "@/lib/utils/get-site-url";
 
 const articlesQuery = groq`*[_type == "article"] {
   "id": _id,
@@ -29,14 +30,16 @@ async function getArticles() {
 }
 
 export async function generateRssFeed() {
+  const siteUrl = getSiteUrl();
+
   const feed = new Feed({
-    id: process.env.SITE_URL || "",
+    id: siteUrl,
     title: "Frontend Digest | RSS Feed",
     description: "Welcome to Frontend Digest!",
-    link: process.env.SITE_URL || "",
+    link: siteUrl,
     copyright: `All rights reserved ${new Date().getFullYear()}, Frontend Digest`,
     feedLinks: {
-      rss2: `${process.env.SITE_URL}/rss.xml`,
+      rss2: `${siteUrl}/rss.xml`,
     },
   });
 
@@ -46,7 +49,7 @@ export async function generateRssFeed() {
     feed.addItem({
       title: article.title,
       id: article.slug,
-      link: `${process.env.SITE_URL}/blog/${article.slug}`,
+      link: `${siteUrl}/blog/${article.slug}`,
       description: article.title,
       date: new Date(article.createdAt),
       content: toHTML(article.content),

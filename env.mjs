@@ -13,14 +13,8 @@ export const env = createEnv({
       z.literal("production"),
       z.literal("preview"),
     ]),
-    SITE_URL: z
-      .string()
-      .regex(/^(?!http:\/\/|https:\/\/).*$/)
-      .optional(),
-    VERCEL_URL: z
-      .string()
-      .regex(/^(?!http:\/\/|https:\/\/).*$/)
-      .optional(),
+    SITE_URL: z.string().optional(),
+    VERCEL_URL: z.string().regex(/^(?!http:\/\/|https:\/\/).*$/),
   },
   /*
    * Environment variables available on the client (and server).
