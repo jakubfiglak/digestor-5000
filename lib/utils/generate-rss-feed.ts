@@ -49,7 +49,7 @@ export async function generateRssFeed() {
     feed.addItem({
       title: article.title,
       id: article.slug,
-      link: `${siteUrl}/blog/${article.slug}`,
+      link: `${siteUrl}/articles/${article.slug}`,
       description: article.title,
       date: new Date(article.createdAt),
       content: toHTML(article.content),
