@@ -4,10 +4,10 @@ import {
   defineType,
 } from '@sanity-typed/types';
 
-export const article = defineType({
-  name: 'article',
+export const tag = defineType({
+  name: 'tag',
   type: 'document',
-  title: 'Article',
+  title: 'Tag',
   fields: [
     defineField({
       name: 'title',
@@ -20,13 +20,12 @@ export const article = defineType({
       type: 'slug',
       title: 'Slug',
       options: { source: 'title' },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'content',
-      type: 'array',
-      title: 'Content',
-      of: [defineArrayMember({ type: 'block' })],
-      validation: (Rule) => Rule.required(),
+      name: 'description',
+      type: 'text',
+      title: 'Description',
     }),
   ],
 });
