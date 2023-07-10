@@ -27,7 +27,13 @@ export const resource = defineType({
       title: 'Type',
       initialValue: 'article',
       options: {
-        list: ['article', 'video', 'podcast', 'whatchamacallit'],
+        list: [
+          'article',
+          'video',
+          'podcast',
+          'twitter-thread',
+          'whatchamacallit',
+        ],
         layout: 'radio',
       },
       validation: (Rule) => Rule.required(),

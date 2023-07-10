@@ -2,15 +2,15 @@
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>Frontend Digest | RSS Feed</title>
-        <link>localhost:3000</link>
+        <link>http://localhost:3000</link>
         <description>Welcome to Frontend Digest!</description>
-        <lastBuildDate>Sun, 09 Jul 2023 17:31:21 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 10 Jul 2023 17:15:56 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <copyright>All rights reserved 2023, Frontend Digest</copyright>
         <item>
             <title><![CDATA[Test Article]]></title>
-            <link>localhost:3000/blog/test-article</link>
+            <link>http://localhost:3000/articles/test-article</link>
             <guid>test-article</guid>
             <pubDate>Fri, 23 Jun 2023 19:47:07 GMT</pubDate>
             <description><![CDATA[Test Article]]></description>
@@ -18,7 +18,7 @@
         </item>
         <item>
             <title><![CDATA[New Article]]></title>
-            <link>localhost:3000/blog/new-article</link>
+            <link>http://localhost:3000/articles/new-article</link>
             <guid>new-article</guid>
             <pubDate>Sun, 09 Jul 2023 17:05:40 GMT</pubDate>
             <description><![CDATA[New Article]]></description>
