@@ -40,7 +40,7 @@ const ResourcesPage = async () => {
 
   return (
     <>
-      <h1 className="mb-6 text-center text-4xl font-bold text-secondary">
+      <h1 className="text-secondary mb-6 text-center text-4xl font-bold">
         Resources
       </h1>
       <ul className="grid grid-cols-4 gap-4">
@@ -50,14 +50,14 @@ const ResourcesPage = async () => {
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-full flex-col justify-between rounded-lg border border-text p-3 transition-colors hover:border-primary"
+              className="border-text hover:border-primary flex h-full flex-col justify-between rounded-lg border p-3 transition-colors"
             >
               <h3 className="mb-3 text-xl font-bold">{title}</h3>
               <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
                   <span
                     key={tag.slug}
-                    className="rounded-full border border-secondary px-2 py-1 text-xs opacity-60"
+                    className="border-secondary rounded-full border px-2 py-1 text-xs opacity-60"
                   >
                     {tag.title}
                   </span>

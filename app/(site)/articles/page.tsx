@@ -36,7 +36,7 @@ const ArticlesPage = async () => {
           <li key={id}>
             <Link
               href={`/articles/${slug}`}
-              className="transition-colors hover:text-secondary"
+              className="hover:text-secondary transition-colors"
             >
               {title}
             </Link>
