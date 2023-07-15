@@ -43,7 +43,7 @@ const ArticlePage: NextPage<ArticlePageProps> = async ({
 
   return (
     <>
-      <h1 className="mb-6 text-center text-4xl font-bold">{article.title}</h1>
+      <h2 className="my-6 text-center text-4xl font-bold">{article.title}</h2>
       <article>
         <PortableText
           value={article.content}

@@ -32,6 +32,7 @@ export const resource = defineType({
           'video',
           'podcast',
           'twitter-thread',
+          'github-thread',
           'whatchamacallit',
         ],
         layout: 'radio',

@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="fixed left-0 top-0 flex h-20 w-full items-center shadow-md">
+        <header className="fixed left-0 top-0 flex h-20 w-full items-center bg-white shadow-md">
           <nav className="mx-auto max-w-[1200px] flex-grow px-6">
             <ul className="flex items-center gap-6">
               <li>

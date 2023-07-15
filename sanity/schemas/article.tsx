@@ -83,6 +83,9 @@ export const article = defineType({
             ],
           },
         }),
+        defineArrayMember({
+          type: 'image',
+        }),
       ],
       validation: (Rule) => Rule.required(),
     }),

@@ -30,7 +30,7 @@ const ArticlesPage = async () => {
 
   return (
     <>
-      <h1 className="mb-6 text-center text-4xl font-bold">Articles</h1>
+      <h2 className="my-6 text-center text-4xl font-bold">Articles</h2>
       <ul>
         {articles.map(({ id, slug, title }) => (
           <li key={id}>

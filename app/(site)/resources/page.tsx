@@ -40,6 +40,7 @@ const resourcesListSchema = z.array(
       z.literal('video'),
       z.literal('podcast'),
       z.literal('twitter-thread'),
+      z.literal('github-thread'),
       z.literal('whatchamacallit'),
     ]),
     url: z.string().url(),
@@ -64,7 +65,7 @@ const ResourcesPage = async () => {
 
   return (
     <>
-      <h1 className="text-secondary mb-6 text-center text-4xl font-bold">
+      <h1 className="text-secondary my-6 text-center text-4xl font-bold">
         Resources
       </h1>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">

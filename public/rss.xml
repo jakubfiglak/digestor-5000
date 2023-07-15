@@ -4,10 +4,18 @@
         <title>Frontend Digest | RSS Feed</title>
         <link>http://localhost:3000</link>
         <description>Welcome to Frontend Digest!</description>
-        <lastBuildDate>Sat, 15 Jul 2023 12:15:50 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 15 Jul 2023 13:11:19 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <copyright>All rights reserved 2023, Frontend Digest</copyright>
+        <item>
+            <title><![CDATA[Frontend Digest — 2023 / 27]]></title>
+            <link>http://localhost:3000/articles/frontend-digest-2023-27</link>
+            <guid>frontend-digest-2023-27</guid>
+            <pubDate>Sat, 15 Jul 2023 13:03:13 GMT</pubDate>
+            <description><![CDATA[Frontend Digest — 2023 / 27]]></description>
+            <content:encoded><![CDATA[<p>Last week’s digest was not published, hope you did not forget about us! In a return, this digest consists of twice as many articles as usual. Let us know if you’d prefer to read less often but condensed.</p><h2>💎 <strong>Highlight of the Last Two Weeks</strong></h2><p>It was indeed hard to choose a single highlight from the last two weeks. However, the Dev Mode from Figma, requires a special highlight, as it has put DX on a different, much higher level!</p><p></p><div style="display:none">Unknown block type "image", specify a component for it in the `components.types` option</div><p>Per citation: “Dev Mode in Figma design gives developers everything they need to navigate design files and transform designs into code. With Dev Mode, designers and developers stay on the same page, making sure important details aren’t lost in the handoff process.”</p><h2>📎 <strong>Thought-Provoking Bits</strong></h2><ul><li>How to check the number for being a prime number? <a href="https://www.noulakaz.net/2007/03/18/a-regular-expression-to-check-for-prime-numbers/">Use a regular expression</a>.</li><li>Wanting to create a web-based game? But the technology holds you back? <a href="https://twitter.com/Lunakepio/status/1673330505071067140">This may not be an issue anymore</a>.</li><li>React Server Components lead to abandon, an open source project. It’s a bad thing?  <a href="https://github.com/stitchesjs/stitches/discussions/1149">Stitches team has decided to stop maintaining their library</a>, however they now can focus even more on other great projects. Sometimes starting fresh is a more valuable than a refactor.</li></ul><div style="display:none">Unknown block type "image", specify a component for it in the `components.types` option</div><ul><li>Hot change: <a href="https://twitter.com/housecor/status/1674456771031707655">Change your ESLint issues to be all warnings. So it’s easier to distinguish them from TypeScript errors. Sounds good? </a></li></ul>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[Test Article]]></title>
             <link>http://localhost:3000/articles/test-article</link>
