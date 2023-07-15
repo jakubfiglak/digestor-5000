@@ -65,7 +65,22 @@ export async function generateRssFeed() {
         components: {
           marks: {
             resourceLink: ({ value, children }) => {
-              return `<a href="${value.url}">${children}</a>`;
+              return /* html */ `<a href="${value.url}">${children}</a>`;
+            },
+          },
+          types: {
+            image: ({ value }) => {
+              return /* html */ `
+              <figure>
+                <image
+                  src="${client.imageUrlBuilder.image(value).url()}"
+                  alt="${value.alt}"
+                />
+                {${value.caption} && (
+                  <figcaption>${value.caption}</figcaption>
+                )}
+              </figure>
+              `;
             },
           },
         },

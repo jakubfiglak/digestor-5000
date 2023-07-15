@@ -41,7 +41,7 @@ const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
   const { width, height } = getImageDimensions(value);
 
   return (
-    <figure className="mb-6">
+    <figure className="my-6">
       <Image
         src={client.imageUrlBuilder.image(value).url()}
         alt={value.alt}
