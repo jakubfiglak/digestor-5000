@@ -11,7 +11,15 @@ const articlesQuery = groq`*[_type == "article"] {
   "id": _id,
   title,
   "slug": slug.current,
-  content,
+  content[] {
+    ...,
+    markDefs[] {
+      ...,
+      _type == 'resourceLink' => {
+        "url": @.reference->url
+      }
+    }
+  },
   "createdAt": _createdAt 
 }`;
 
@@ -53,7 +61,15 @@ export async function generateRssFeed() {
       link: `${siteUrl}/articles/${article.slug}`,
       description: article.title,
       date: new Date(article.createdAt),
-      content: toHTML(article.content),
+      content: toHTML(article.content, {
+        components: {
+          marks: {
+            resourceLink: ({ value, children }) => {
+              return `<a href="${value.url}">${children}</a>`;
+            },
+          },
+        },
+      }),
     });
   });
 

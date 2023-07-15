@@ -21,7 +21,12 @@ const resourcesListQuery = groq`*[_type == "resource"] {
   description,
   type,
   url,
-  "tags": tags[]->{title, "slug": slug.current}
+  "tags": tags[]->{title, "slug": slug.current},
+  "articles": *[_type == "article" && references(^._id)] {
+    "id": _id,
+    title,
+    "slug": slug.current
+  }
 }`;
 
 const resourcesListSchema = z.array(
@@ -38,7 +43,14 @@ const resourcesListSchema = z.array(
       z.literal('whatchamacallit'),
     ]),
     url: z.string().url(),
-    tags: z.array(z.object({ title: z.string(), slug: z.string() })),
+    tags: z
+      .array(z.object({ title: z.string(), slug: z.string() }))
+      .optional()
+      .nullable(),
+    articles: z
+      .array(z.object({ id: z.string(), title: z.string(), slug: z.string() }))
+      .optional()
+      .nullable(),
   })
 );
 
@@ -56,7 +68,7 @@ const ResourcesPage = async () => {
         Resources
       </h1>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {resources.map(({ id, title, url, description, tags }) => (
+        {resources.map(({ id, title, url, description, tags, articles }) => (
           <li key={id}>
             <Card className="flex h-full flex-col">
               <CardHeader>
@@ -73,14 +85,29 @@ const ResourcesPage = async () => {
                 </a>
               </CardHeader>
               <CardContent className="flex-grow">
-                <CardDescription>{description}</CardDescription>
+                <CardDescription className="mb-3">
+                  {description}
+                </CardDescription>
+                {articles && (
+                  <div className="flex flex-wrap items-center gap-2">
+                    <CardDescription>Mentioned in:</CardDescription>
+                    {articles.map(({ id, title, slug }) => (
+                      <Link key={id} href={`/articles/${slug}`}>
+                        <Badge key={id} variant="secondary">
+                          {title}
+                        </Badge>
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </CardContent>
               <CardFooter className="flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <Badge key={tag.slug} variant="outline">
-                    {tag.title}
-                  </Badge>
-                ))}
+                {tags &&
+                  tags.map((tag) => (
+                    <Badge key={tag.slug} variant="outline">
+                      {tag.title}
+                    </Badge>
+                  ))}
               </CardFooter>
             </Card>
           </li>

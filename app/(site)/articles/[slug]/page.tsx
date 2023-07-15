@@ -9,7 +9,15 @@ const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
   "id": _id,
   title,
   "slug": slug.current,
-  content
+  content[] {
+    ...,
+    markDefs[] {
+      ...,
+      _type == 'resourceLink' => {
+        "url": @.reference->url
+      }
+    }
+  }
 }`;
 
 const articleSchema = z.object({
@@ -52,6 +60,11 @@ const ArticlePage: NextPage<ArticlePageProps> = async ({
               bullet: ({ children }) => (
                 <ul className="mb-4 list-inside list-disc">{children}</ul>
               ),
+            },
+            marks: {
+              resourceLink: ({ value, children }) => {
+                return <a href={value.url}>{children}</a>;
+              },
             },
           }}
         />
