@@ -85,6 +85,19 @@ export const article = defineType({
         }),
         defineArrayMember({
           type: 'image',
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alt text',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            }),
+          ],
         }),
       ],
       validation: (Rule) => Rule.required(),
