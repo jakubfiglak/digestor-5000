@@ -1,6 +1,10 @@
 import './globals.css';
 
 import { Inter } from 'next/font/google';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import logo from './logo.png';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,7 +21,43 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="mx-auto max-w-[1200px] p-24">{children}</main>
+        <header className="fixed left-0 top-0 flex h-20 w-full items-center shadow-md">
+          <nav className="mx-auto max-w-[1200px] flex-grow px-6">
+            <ul className="flex items-center gap-6">
+              <li>
+                <Link
+                  href="/"
+                  className="transition-colors hover:text-orange-500"
+                >
+                  <h1 className="sr-only">Digestor 5000</h1>
+                  <Image
+                    src={logo}
+                    width={64}
+                    height={64}
+                    alt="Digestor 5000 logo"
+                  />
+                </Link>
+              </li>
+              <li className="ml-auto">
+                <Link
+                  href="/resources"
+                  className="transition-colors hover:text-orange-500"
+                >
+                  Resources
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/articles"
+                  className="transition-colors hover:text-orange-500"
+                >
+                  Articles
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </header>
+        <main className="mx-auto max-w-[1200px] py-20">{children}</main>
       </body>
     </html>
   );
