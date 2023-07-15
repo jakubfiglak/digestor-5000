@@ -76,9 +76,11 @@ export async function generateRssFeed() {
                   src="${client.imageUrlBuilder.image(value).url()}"
                   alt="${value.alt}"
                 />
-                {${value.caption} && (
-                  <figcaption>${value.caption}</figcaption>
-                )}
+                ${
+                  value.caption
+                    ? /* html */ `<figcaption>${value.caption}</figcaption>`
+                    : ''
+                }
               </figure>
               `;
             },
