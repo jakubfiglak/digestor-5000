@@ -1,6 +1,6 @@
 // src/env.mjs
-import { createEnv } from "@t3-oss/env-nextjs";
-import { z } from "zod";
+import { createEnv } from '@t3-oss/env-nextjs';
+import { z } from 'zod';
 
 export const env = createEnv({
   /*
@@ -9,9 +9,9 @@ export const env = createEnv({
    */
   server: {
     VERCEL_ENV: z.union([
-      z.literal("development"),
-      z.literal("production"),
-      z.literal("preview"),
+      z.literal('development'),
+      z.literal('production'),
+      z.literal('preview'),
     ]),
     SITE_URL: z.string().optional(),
     VERCEL_URL: z.string().regex(/^(?!http:\/\/|https:\/\/).*$/),
