@@ -56,5 +56,11 @@ export const resource = defineType({
       title: 'Tags',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'tag' }] })],
     }),
+    defineField({
+      name: 'scheduledForPublishing',
+      type: 'boolean',
+      title: 'Scheduled for publishing',
+      initialValue: false,
+    }),
   ],
 });

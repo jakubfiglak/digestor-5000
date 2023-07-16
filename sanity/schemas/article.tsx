@@ -11,13 +11,15 @@ import { env } from '@/env.mjs';
 
 const resourcesQuery = groq`*[_type == "resource"] {
   "id": _id,
-  "articlesCount": count(*[_type == "article" && references(^._id)])
+  "articlesCount": count(*[_type == "article" && references(^._id)]),
+  scheduledForPublishing
 }`;
 
 const resourcesSchema = z.array(
   z.object({
     id: z.string(),
     articlesCount: z.number(),
+    scheduledForPublishing: z.boolean().optional().nullable(),
   })
 );
 
@@ -92,7 +94,11 @@ export const article = defineType({
                         const resources = resourcesSchema.parse(data);
 
                         const availableResourceIds = resources
-                          .filter((resource) => resource.articlesCount === 0)
+                          .filter(
+                            (resource) =>
+                              resource.articlesCount === 0 &&
+                              resource.scheduledForPublishing
+                          )
                           .map((resource) => resource.id);
 
                         return {

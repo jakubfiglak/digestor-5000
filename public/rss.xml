@@ -4,7 +4,7 @@
         <title>Frontend Digest | RSS Feed</title>
         <link>http://localhost:3000</link>
         <description>Welcome to Frontend Digest!</description>
-        <lastBuildDate>Sun, 16 Jul 2023 17:34:45 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 16 Jul 2023 17:37:25 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <copyright>All rights reserved 2023, Frontend Digest</copyright>
