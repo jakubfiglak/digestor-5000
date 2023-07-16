@@ -71,7 +71,7 @@ export const resource = defineType({
           if (document?.slug) {
             const data = await client.fetch(resourcesQuery, {
               url: value,
-              slug: document?.slug.current,
+              slug: (document.slug as { current: string }).current,
             });
 
             const resources = resourcesSchema.parse(data);
