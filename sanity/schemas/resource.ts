@@ -6,9 +6,9 @@ import {
 import { groq } from 'next-sanity';
 import { z } from 'zod';
 
-import { client } from '@/sanity/client';
+import { env } from '@/env.mjs';
 
-const resourcesQuery = groq`*[_type == "resource" && url == $url] {
+const resourcesQuery = groq`*[_type == "resource" && url == $url && slug.current != $slug] {
   "id": _id,
 }`;
 
@@ -63,12 +63,22 @@ export const resource = defineType({
       type: 'url',
       title: 'URL',
       validation: (Rule) =>
-        Rule.required().custom(async (value) => {
-          const data = await client.fetch(resourcesQuery, { url: value });
-          const resources = resourcesSchema.parse(data);
+        Rule.required().custom(async (value, { document, getClient }) => {
+          const client = getClient({
+            apiVersion: env.NEXT_PUBLIC_SANITY_API_VERSION,
+          });
 
-          if (resources.length > 0) {
-            return 'Resource with this URL has already been submitted';
+          if (document?.slug) {
+            const data = await client.fetch(resourcesQuery, {
+              url: value,
+              slug: document?.slug.current,
+            });
+
+            const resources = resourcesSchema.parse(data);
+
+            if (resources.length > 0) {
+              return 'Resource with this URL has already been submitted';
+            }
           }
 
           return true;
