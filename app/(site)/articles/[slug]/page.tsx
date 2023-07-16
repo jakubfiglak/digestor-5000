@@ -14,6 +14,9 @@ const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
   "id": _id,
   title,
   "slug": slug.current,
+  coverImage {
+    ...
+  },
   content[] {
     ...,
     markDefs[] {
@@ -28,6 +31,17 @@ const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
 const articleSchema = z.object({
   id: z.string(),
   title: z.string(),
+  coverImage: z
+    .object({
+      alt: z.string(),
+      caption: z.string().optional().nullable(),
+      asset: z.object({
+        _ref: z.string(),
+        _type: z.string(),
+      }),
+    })
+    .optional()
+    .nullable(),
   slug: z.string(),
   content: z.any(),
 });
@@ -69,6 +83,21 @@ const ArticlePage: NextPage<ArticlePageProps> = async ({
   return (
     <>
       <article className="mx-auto max-w-3xl">
+        {article.coverImage && (
+          <figure className="my-6">
+            <Image
+              src={client.imageUrlBuilder.image(article.coverImage).url()}
+              alt={article.coverImage.alt}
+              width={getImageDimensions(article.coverImage).width}
+              height={getImageDimensions(article.coverImage).height}
+            />
+            {article.coverImage.caption && (
+              <figcaption className="text-center text-sm text-slate-600">
+                {article.coverImage.caption}
+              </figcaption>
+            )}
+          </figure>
+        )}
         <h2 className="my-6 text-center text-4xl font-bold">{article.title}</h2>
         <PortableText
           value={article.content}

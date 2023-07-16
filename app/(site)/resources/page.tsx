@@ -1,4 +1,3 @@
-import { Link2Icon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { groq } from 'next-sanity';
 import { z } from 'zod';
@@ -79,9 +78,8 @@ const ResourcesPage = async () => {
                   rel="noopener noreferrer"
                   className="group"
                 >
-                  <CardTitle className="flex items-center gap-1 transition-colors group-hover:text-orange-500">
+                  <CardTitle className="transition-colors group-hover:text-orange-500">
                     {title}
-                    <Link2Icon height={16} width={16} />
                   </CardTitle>
                 </a>
               </CardHeader>
