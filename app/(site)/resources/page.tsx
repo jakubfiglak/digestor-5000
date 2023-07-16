@@ -64,9 +64,9 @@ const ResourcesPage = async () => {
 
   return (
     <>
-      <h1 className="text-secondary my-6 text-center text-4xl font-bold">
+      <h2 className="text-secondary my-6 text-center text-4xl font-bold">
         Resources
-      </h1>
+      </h2>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
         {resources.map(({ id, title, url, description, tags, articles }) => (
           <li key={id}>

@@ -6,6 +6,7 @@ import { getImageDimensions } from '@sanity/asset-utils';
 import { NextPage } from 'next';
 import Image from 'next/image';
 import { groq } from 'next-sanity';
+import { isArbitraryValue } from 'tailwind-merge/dist/lib/validators';
 import { z } from 'zod';
 
 import { client } from '@/sanity/client';
@@ -17,6 +18,7 @@ const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
   coverImage {
     ...
   },
+  excerpt,
   content[] {
     ...,
     markDefs[] {
@@ -42,6 +44,7 @@ const articleSchema = z.object({
     })
     .optional()
     .nullable(),
+  excerpt: z.string().optional().nullable(),
   slug: z.string(),
   content: z.any(),
 });
@@ -99,6 +102,7 @@ const ArticlePage: NextPage<ArticlePageProps> = async ({
           </figure>
         )}
         <h2 className="my-6 text-center text-4xl font-bold">{article.title}</h2>
+        {article.excerpt && <p>{article.excerpt}</p>}
         <PortableText
           value={article.content}
           components={{

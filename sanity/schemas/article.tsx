@@ -58,6 +58,11 @@ export const article = defineType({
       ],
     }),
     defineField({
+      name: 'excerpt',
+      type: 'text',
+      title: 'Excerpt',
+    }),
+    defineField({
       name: 'content',
       type: 'array',
       title: 'Content',

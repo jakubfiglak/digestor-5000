@@ -14,6 +14,7 @@ const articlesQuery = groq`*[_type == "article"] {
   coverImage {
     ...
   },
+  excerpt,
   content[] {
     ...,
     markDefs[] {
@@ -23,7 +24,7 @@ const articlesQuery = groq`*[_type == "article"] {
       }
     }
   },
-  "createdAt": _createdAt 
+  "createdAt": _createdAt
 }`;
 
 const articlesSchema = z.array(
@@ -42,6 +43,7 @@ const articlesSchema = z.array(
       })
       .optional()
       .nullable(),
+    excerpt: z.string().optional().nullable(),
     content: z.any(),
     createdAt: z.string(),
   })
@@ -69,7 +71,7 @@ export async function generateRssFeed() {
   const articles = await getArticles();
 
   articles.forEach((article) => {
-    const { id, title, slug, coverImage, content, createdAt } = article;
+    const { title, slug, coverImage, excerpt, content, createdAt } = article;
 
     const coverImageHtml = coverImage
       ? /* html */ `
@@ -86,6 +88,8 @@ export async function generateRssFeed() {
     </figure>
     `
       : '';
+
+    const excerptHtml = excerpt ? /* html */ `<p>${excerpt}</p>` : '';
 
     const contentHtml = toHTML(content, {
       components: {
@@ -120,7 +124,7 @@ export async function generateRssFeed() {
       link: `${siteUrl}/articles/${slug}`,
       description: title,
       date: new Date(createdAt),
-      content: coverImageHtml + contentHtml,
+      content: coverImageHtml + excerptHtml + contentHtml,
     });
   });
 
