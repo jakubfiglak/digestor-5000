@@ -3,6 +3,20 @@ import {
   defineField,
   defineType,
 } from '@sanity-typed/types';
+import { groq } from 'next-sanity';
+import { z } from 'zod';
+
+import { client } from '@/sanity/client';
+
+const resourcesQuery = groq`*[_type == "resource" && url == $url] {
+  "id": _id,
+}`;
+
+const resourcesSchema = z.array(
+  z.object({
+    id: z.string(),
+  })
+);
 
 export const resource = defineType({
   name: 'resource',
@@ -32,6 +46,7 @@ export const resource = defineType({
           'video',
           'podcast',
           'twitter-thread',
+          'github-thread',
           'whatchamacallit',
         ],
         layout: 'radio',
@@ -47,13 +62,29 @@ export const resource = defineType({
       name: 'url',
       type: 'url',
       title: 'URL',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.required().custom(async (value) => {
+          const data = await client.fetch(resourcesQuery, { url: value });
+          const resources = resourcesSchema.parse(data);
+
+          if (resources.length > 0) {
+            return 'Resource with this URL has already been submitted';
+          }
+
+          return true;
+        }),
     }),
     defineField({
       name: 'tags',
       type: 'array',
       title: 'Tags',
       of: [defineArrayMember({ type: 'reference', to: [{ type: 'tag' }] })],
+    }),
+    defineField({
+      name: 'scheduledForPublishing',
+      type: 'boolean',
+      title: 'Scheduled for publishing',
+      initialValue: false,
     }),
   ],
 });

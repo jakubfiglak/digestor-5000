@@ -11,6 +11,10 @@ const articlesQuery = groq`*[_type == "article"] {
   "id": _id,
   title,
   "slug": slug.current,
+  coverImage {
+    ...
+  },
+  excerpt,
   content[] {
     ...,
     markDefs[] {
@@ -20,7 +24,7 @@ const articlesQuery = groq`*[_type == "article"] {
       }
     }
   },
-  "createdAt": _createdAt 
+  "createdAt": _createdAt
 }`;
 
 const articlesSchema = z.array(
@@ -28,6 +32,18 @@ const articlesSchema = z.array(
     id: z.string(),
     title: z.string(),
     slug: z.string(),
+    coverImage: z
+      .object({
+        alt: z.string(),
+        caption: z.string().optional().nullable(),
+        asset: z.object({
+          _ref: z.string(),
+          _type: z.string(),
+        }),
+      })
+      .optional()
+      .nullable(),
+    excerpt: z.string().optional().nullable(),
     content: z.any(),
     createdAt: z.string(),
   })
@@ -55,21 +71,60 @@ export async function generateRssFeed() {
   const articles = await getArticles();
 
   articles.forEach((article) => {
-    feed.addItem({
-      title: article.title,
-      id: article.slug,
-      link: `${siteUrl}/articles/${article.slug}`,
-      description: article.title,
-      date: new Date(article.createdAt),
-      content: toHTML(article.content, {
-        components: {
-          marks: {
-            resourceLink: ({ value, children }) => {
-              return `<a href="${value.url}">${children}</a>`;
-            },
+    const { title, slug, coverImage, excerpt, content, createdAt } = article;
+
+    const coverImageHtml = coverImage
+      ? /* html */ `
+    <figure>
+      <image
+        src="${client.imageUrlBuilder.image(coverImage).url()}"
+        alt="${coverImage.alt}"
+      />
+      ${
+        coverImage.caption
+          ? /* html */ `<figcaption>${coverImage.caption}</figcaption>`
+          : ''
+      }
+    </figure>
+    `
+      : '';
+
+    const excerptHtml = excerpt ? /* html */ `<p>${excerpt}</p>` : '';
+
+    const contentHtml = toHTML(content, {
+      components: {
+        marks: {
+          resourceLink: ({ value, children }) => {
+            return /* html */ `<a href="${value.url}">${children}</a>`;
           },
         },
-      }),
+        types: {
+          image: ({ value }) => {
+            return /* html */ `
+            <figure>
+              <image
+                src="${client.imageUrlBuilder.image(value).url()}"
+                alt="${value.alt}"
+              />
+              ${
+                value.caption
+                  ? /* html */ `<figcaption>${value.caption}</figcaption>`
+                  : ''
+              }
+            </figure>
+            `;
+          },
+        },
+      },
+    });
+
+    feed.addItem({
+      title,
+      id: slug,
+      link: `${siteUrl}/articles/${slug}`,
+      description: title,
+      date: new Date(createdAt),
+      content: coverImageHtml + excerptHtml + contentHtml,
     });
   });
 

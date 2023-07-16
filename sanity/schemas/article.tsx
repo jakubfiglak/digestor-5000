@@ -11,13 +11,15 @@ import { env } from '@/env.mjs';
 
 const resourcesQuery = groq`*[_type == "resource"] {
   "id": _id,
-  "articlesCount": count(*[_type == "article" && references(^._id)])
+  "articlesCount": count(*[_type == "article" && references(^._id)]),
+  scheduledForPublishing
 }`;
 
 const resourcesSchema = z.array(
   z.object({
     id: z.string(),
     articlesCount: z.number(),
+    scheduledForPublishing: z.boolean().optional().nullable(),
   })
 );
 
@@ -37,6 +39,30 @@ export const article = defineType({
       type: 'slug',
       title: 'Slug',
       options: { source: 'title' },
+    }),
+    defineField({
+      name: 'coverImage',
+      type: 'image',
+      title: 'Cover Image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alt text',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'caption',
+          type: 'string',
+          title: 'Caption',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'excerpt',
+      type: 'text',
+      title: 'Excerpt',
     }),
     defineField({
       name: 'content',
@@ -68,7 +94,11 @@ export const article = defineType({
                         const resources = resourcesSchema.parse(data);
 
                         const availableResourceIds = resources
-                          .filter((resource) => resource.articlesCount === 0)
+                          .filter(
+                            (resource) =>
+                              resource.articlesCount === 0 &&
+                              resource.scheduledForPublishing
+                          )
                           .map((resource) => resource.id);
 
                         return {
@@ -82,6 +112,22 @@ export const article = defineType({
               },
             ],
           },
+        }),
+        defineArrayMember({
+          type: 'image',
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alt text',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            }),
+          ],
         }),
       ],
       validation: (Rule) => Rule.required(),
