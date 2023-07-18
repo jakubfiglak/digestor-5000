@@ -5,53 +5,9 @@ import {
 import { getImageDimensions } from '@sanity/asset-utils';
 import { NextPage } from 'next';
 import Image from 'next/image';
-import { groq } from 'next-sanity';
-import { z } from 'zod';
 
+import { getArticle } from '@/modules/articles/api';
 import { client } from '@/sanity/client';
-
-const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
-  "id": _id,
-  title,
-  "slug": slug.current,
-  coverImage {
-    ...
-  },
-  excerpt,
-  content[] {
-    ...,
-    markDefs[] {
-      ...,
-      _type == 'resourceLink' => {
-        "url": @.reference->url
-      }
-    }
-  }
-}`;
-
-const articleSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  coverImage: z
-    .object({
-      alt: z.string(),
-      caption: z.string().optional().nullable(),
-      asset: z.object({
-        _ref: z.string(),
-        _type: z.string(),
-      }),
-    })
-    .optional()
-    .nullable(),
-  excerpt: z.string().optional().nullable(),
-  slug: z.string(),
-  content: z.any(),
-});
-
-async function getArticle(slug: string) {
-  const data = await client.fetch(articleQuery, { slug });
-  return articleSchema.parse(data);
-}
 
 const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
   const { width, height } = getImageDimensions(value);
