@@ -4,6 +4,7 @@ import fs from 'fs';
 import { groq } from 'next-sanity';
 import { z } from 'zod';
 
+import { env } from '@/env.mjs';
 import { getSiteUrl } from '@/lib/utils/get-site-url';
 import { client } from '@/sanity/client';
 
@@ -55,6 +56,10 @@ async function getArticles() {
 }
 
 export async function generateRssFeed() {
+  if (env.VERCEL_ENV === 'development') {
+    return;
+  }
+
   const siteUrl = getSiteUrl();
 
   const feed = new Feed({

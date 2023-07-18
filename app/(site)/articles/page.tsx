@@ -12,7 +12,7 @@ import {
 import { generateRssFeed } from '@/lib/utils/generate-rss-feed';
 import { client } from '@/sanity/client';
 
-const articlesListQuery = groq`*[_type == "article"] {
+const articlesListQuery = groq`*[_type == "article"] | order(_createdAt desc) {
   "id": _id,
   title,
   excerpt,

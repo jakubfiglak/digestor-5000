@@ -6,7 +6,6 @@ import { getImageDimensions } from '@sanity/asset-utils';
 import { NextPage } from 'next';
 import Image from 'next/image';
 import { groq } from 'next-sanity';
-import { isArbitraryValue } from 'tailwind-merge/dist/lib/validators';
 import { z } from 'zod';
 
 import { client } from '@/sanity/client';
