@@ -7,13 +7,17 @@ import {
 } from '@/modules/articles/schemas';
 import { client } from '@/sanity/client';
 
-const articlesListQuery = groq`*[_type == "article"] | order(_createdAt desc) {
+const coreArticleFields = groq`
   "id": _id,
   title,
   excerpt,
   "slug": slug.current,
   "createdAt": _createdAt,
   "readTime": round(length(pt::text(content)) / 5 / 180 )
+`;
+
+const articlesListQuery = groq`*[_type == "article"] | order(_createdAt desc) {
+  ${coreArticleFields}
 }`;
 
 export async function getArticlesList() {
@@ -21,14 +25,11 @@ export async function getArticlesList() {
   return z.array(articleSchema).parse(data);
 }
 
-const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
-  "id": _id,
-  title,
-  "slug": slug.current,
+const articleDetailsFields = groq`
+  ${coreArticleFields},
   coverImage {
     ...
   },
-  excerpt,
   content[] {
     ...,
     markDefs[] {
@@ -37,12 +38,23 @@ const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
         "url": @.reference->url
       }
     }
-  },
-  "createdAt": _createdAt,
-  "readTime": round(length(pt::text(content)) / 5 / 180 )
+  }
+`;
+
+const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
+  ${articleDetailsFields}
 }`;
 
 export async function getArticle(slug: string) {
   const data = await client.fetch(articleQuery, { slug });
   return articleDetailsSchema.parse(data);
+}
+
+const articlesDetailsListQuery = groq`*[_type == "article"] {
+  ${articleDetailsFields}
+}`;
+
+export async function getArticlesDetailsList() {
+  const data = await client.fetch(articlesDetailsListQuery);
+  return z.array(articleDetailsSchema).parse(data);
 }
