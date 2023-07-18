@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/tooltip';
 
 import type { Resource } from '../schemas';
+import { ResourceTypeBadge } from './resource-type-badge';
 
 type ResourceCardProps = {
   resource: Resource;
@@ -29,6 +30,7 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
   const {
     url,
     title,
+    type,
     createdAt,
     description,
     articles,
@@ -63,16 +65,17 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
             </TooltipProvider>
           )}
         </div>
-        <time
-          dateTime={createdAt}
-          className="text-xs text-slate-500 dark:text-slate-400"
-        >
-          {new Intl.DateTimeFormat('en-US', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-          }).format(new Date(createdAt))}
-        </time>
+        <div className="text-xs text-slate-500 dark:text-slate-400">
+          <time dateTime={createdAt}>
+            {new Intl.DateTimeFormat('en-US', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric',
+            }).format(new Date(createdAt))}
+          </time>
+          <span className="mx-1">&middot;</span>
+          <ResourceTypeBadge type={type} />
+        </div>
       </CardHeader>
       <CardContent className="flex-grow">
         <CardDescription className="mb-3">{description}</CardDescription>

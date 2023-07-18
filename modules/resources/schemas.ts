@@ -1,18 +1,22 @@
 import { z } from 'zod';
 
+export const resourceTypeSchema = z.union([
+  z.literal('article'),
+  z.literal('video'),
+  z.literal('podcast'),
+  z.literal('twitter-thread'),
+  z.literal('github-thread'),
+  z.literal('whatchamacallit'),
+]);
+
+export type ResourceType = z.infer<typeof resourceTypeSchema>;
+
 export const resourceSchema = z.object({
   id: z.string(),
   title: z.string(),
   slug: z.string(),
   description: z.string().optional().nullable(),
-  type: z.union([
-    z.literal('article'),
-    z.literal('video'),
-    z.literal('podcast'),
-    z.literal('twitter-thread'),
-    z.literal('github-thread'),
-    z.literal('whatchamacallit'),
-  ]),
+  type: resourceTypeSchema,
   url: z.string().url(),
   scheduledForPublishing: z.boolean().optional().nullable(),
   tags: z
