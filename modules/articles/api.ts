@@ -16,12 +16,12 @@ const coreArticleFields = groq`
   "readTime": round(length(pt::text(content)) / 5 / 180 )
 `;
 
-const articlesListQuery = groq`*[_type == "article"] | order(_createdAt desc) {
+const articlesListQuery = groq`*[_type == "article"] | order(_createdAt desc)[0...$limit] {
   ${coreArticleFields}
 }`;
 
-export async function getArticlesList() {
-  const data = await client.fetch(articlesListQuery);
+export async function getArticlesList(limit = 10000) {
+  const data = await client.fetch(articlesListQuery, { limit });
   return z.array(articleSchema).parse(data);
 }
 
