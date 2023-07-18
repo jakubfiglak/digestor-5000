@@ -13,6 +13,7 @@ const resourcesListQuery = groq`*[_type == "resource"] | order(_createdAt desc) 
   type,
   url,
   "createdAt": _createdAt,
+  scheduledForPublishing,
   "tags": tags[]->{title, "slug": slug.current},
   "articles": *[_type == "article" && references(^._id)] {
     "id": _id,

@@ -14,6 +14,7 @@ export const resourceSchema = z.object({
     z.literal('whatchamacallit'),
   ]),
   url: z.string().url(),
+  scheduledForPublishing: z.boolean().optional().nullable(),
   tags: z
     .array(z.object({ title: z.string(), slug: z.string() }))
     .optional()
