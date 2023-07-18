@@ -6,7 +6,7 @@ import { getImageDimensions } from '@sanity/asset-utils';
 import { NextPage } from 'next';
 import Image from 'next/image';
 
-import { getArticle } from '@/modules/articles/api';
+import { getArticle, getArticleSlugsList } from '@/modules/articles/api';
 import { client } from '@/sanity/client';
 
 const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
@@ -28,6 +28,14 @@ const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
     </figure>
   );
 };
+
+export async function generateStaticParams() {
+  const articles = await getArticleSlugsList();
+
+  return articles.map((article) => ({
+    slug: article.slug,
+  }));
+}
 
 type ArticlePageProps = {
   params: { slug: string };

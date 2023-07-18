@@ -10,7 +10,7 @@ const ArticlesPage = async () => {
     <>
       <h2 className="my-6 text-center text-4xl font-bold">Articles</h2>
 
-      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {articles.map((article) => (
           <li
             key={article.id}
