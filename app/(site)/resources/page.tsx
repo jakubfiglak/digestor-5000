@@ -9,7 +9,7 @@ const ResourcesPage = async () => {
       <h2 className="text-secondary my-6 text-center text-4xl font-bold">
         Resources
       </h2>
-      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {resources.map((resource) => (
           <li key={resource.id}>
             <ResourceCard resource={resource} />
