@@ -74,6 +74,19 @@ export const article = defineType({
           marks: {
             annotations: [
               {
+                name: 'internalLink',
+                type: 'object',
+                title: 'Internal Link',
+                fields: [
+                  {
+                    name: 'reference',
+                    type: 'reference',
+                    title: 'Reference',
+                    to: [{ type: 'article' }],
+                  },
+                ],
+              },
+              {
                 name: 'resourceLink',
                 type: 'object',
                 title: 'Resource Link',

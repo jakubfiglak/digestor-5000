@@ -36,6 +36,9 @@ const articleDetailsFields = groq`
       ...,
       _type == 'resourceLink' => {
         "url": @.reference->url
+      },
+      _type == 'internalLink' => {
+        "slug": @.reference->slug.current
       }
     }
   }

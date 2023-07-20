@@ -54,6 +54,9 @@ export async function generateRssFeed() {
           resourceLink: ({ value, children }) => {
             return /* html */ `<a href="${value.url}">${children}</a>`;
           },
+          internalLink: ({ value, children }) => {
+            return /* html */ `<a href="${siteUrl}/articles/${value.slug}">${children}</a>`;
+          },
         },
         types: {
           image: ({ value }) => {
