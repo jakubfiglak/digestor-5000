@@ -1,4 +1,4 @@
-import { Link2Icon } from '@radix-ui/react-icons';
+import { MagicWandIcon, ReaderIcon } from '@radix-ui/react-icons';
 import {
   defineArrayMember,
   defineField,
@@ -74,10 +74,41 @@ export const article = defineType({
           marks: {
             annotations: [
               {
+                name: 'link',
+                type: 'object',
+                title: 'External link',
+                fields: [
+                  {
+                    name: 'href',
+                    type: 'url',
+                    title: 'URL',
+                  },
+                  {
+                    title: 'Open in new tab',
+                    name: 'blank',
+                    type: 'boolean',
+                  },
+                ],
+              },
+              {
+                name: 'internalLink',
+                type: 'object',
+                title: 'Internal Link',
+                icon: () => <ReaderIcon />,
+                fields: [
+                  {
+                    name: 'reference',
+                    type: 'reference',
+                    title: 'Reference',
+                    to: [{ type: 'article' }],
+                  },
+                ],
+              },
+              {
                 name: 'resourceLink',
                 type: 'object',
                 title: 'Resource Link',
-                icon: () => <Link2Icon />,
+                icon: () => <MagicWandIcon />,
                 fields: [
                   {
                     name: 'reference',

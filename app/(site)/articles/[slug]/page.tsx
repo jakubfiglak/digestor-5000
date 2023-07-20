@@ -5,6 +5,7 @@ import {
 import { getImageDimensions } from '@sanity/asset-utils';
 import { NextPage } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { getArticle, getArticleSlugsList } from '@/modules/articles/api';
 import { client } from '@/sanity/client';
@@ -86,6 +87,29 @@ const ArticlePage: NextPage<ArticlePageProps> = async ({
               resourceLink: ({ value, children }) => {
                 return (
                   <a href={value.url} className="text-yellow-700 underline">
+                    {children}
+                  </a>
+                );
+              },
+              internalLink: ({ value, children }) => {
+                return (
+                  <Link
+                    href={`/articles/${value.slug}`}
+                    className="text-yellow-700 underline"
+                  >
+                    {children}
+                  </Link>
+                );
+              },
+              link: ({ value, children }) => {
+                const { blank, href } = value;
+                return (
+                  <a
+                    href={href}
+                    target={blank ? '_blank' : undefined}
+                    rel={blank ? 'noopener' : undefined}
+                    className="text-yellow-700 underline"
+                  >
                     {children}
                   </a>
                 );
