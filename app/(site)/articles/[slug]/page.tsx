@@ -101,6 +101,19 @@ const ArticlePage: NextPage<ArticlePageProps> = async ({
                   </Link>
                 );
               },
+              link: ({ value, children }) => {
+                const { blank, href } = value;
+                return (
+                  <a
+                    href={href}
+                    target={blank ? '_blank' : undefined}
+                    rel={blank ? 'noopener' : undefined}
+                    className="text-yellow-700 underline"
+                  >
+                    {children}
+                  </a>
+                );
+              },
             },
             types: { image: CustomImage },
           }}
