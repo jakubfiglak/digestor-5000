@@ -4,6 +4,14 @@ import { getResourcesListByTag } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
 import { getTag, getTagsSlugList } from '@/modules/tags/api';
 
+/**
+ * Temporary workaround for Error: Dynamic server usage: headers
+ * https://github.com/vercel/next.js/issues/49373
+ * https://github.com/vercel/next.js/issues/49373#issuecomment-1640663413
+ */
+export const dynamic = 'force-static';
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const tags = await getTagsSlugList();
   return tags.map((tag) => ({

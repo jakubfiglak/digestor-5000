@@ -10,6 +10,14 @@ import Link from 'next/link';
 import { getArticle, getArticleSlugsList } from '@/modules/articles/api';
 import { client } from '@/sanity/client';
 
+/**
+ * Temporary workaround for Error: Dynamic server usage: headers
+ * https://github.com/vercel/next.js/issues/49373
+ * https://github.com/vercel/next.js/issues/49373#issuecomment-1640663413
+ */
+export const dynamic = 'force-static';
+export const revalidate = 60;
+
 const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
   const { width, height } = getImageDimensions(value);
 
