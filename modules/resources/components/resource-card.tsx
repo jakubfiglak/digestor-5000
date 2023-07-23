@@ -95,9 +95,9 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
       <CardFooter className="flex flex-wrap gap-2">
         {tags &&
           tags.map((tag) => (
-            <Badge key={tag.slug} variant="outline">
-              {tag.title}
-            </Badge>
+            <Link href={`/resources/tags/${tag.slug}`} key={tag.slug}>
+              <Badge variant="outline">{tag.title}</Badge>
+            </Link>
           ))}
       </CardFooter>
     </Card>
