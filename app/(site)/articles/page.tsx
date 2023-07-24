@@ -14,7 +14,7 @@ const ArticlesPage = async () => {
         {articles.map((article) => (
           <li
             key={article.id}
-            className="md:first:col-span-2 xl:first:col-span-4"
+            className="md:first:col-span-2 xl:first:col-span-3"
           >
             <ArticleCard article={article} className="h-full" />
           </li>
