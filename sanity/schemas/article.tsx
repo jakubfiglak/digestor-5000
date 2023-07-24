@@ -39,6 +39,7 @@ export const article = defineType({
       type: 'slug',
       title: 'Slug',
       options: { source: 'title' },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'coverImage',

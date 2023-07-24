@@ -34,6 +34,7 @@ export const resource = defineType({
       type: 'slug',
       title: 'Slug',
       options: { source: 'title' },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'type',
