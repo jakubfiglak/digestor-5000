@@ -7,7 +7,7 @@ import { Navbar } from '@/components/nav/navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const dynamic = 'force-static';
+// export const dynamic = 'force-static';
 
 export const metadata = {
   title: 'Create Next App',
