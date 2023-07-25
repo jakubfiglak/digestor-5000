@@ -40,7 +40,11 @@ export const ArticleCard = ({ article, className }: ArticleCardProps) => {
         </div>
       </CardHeader>
       <CardContent className="flex-grow">
-        <CardDescription className="mb-3">{excerpt}</CardDescription>
+        {excerpt && (
+          <CardDescription className="mb-3">
+            {excerpt.length >= 100 ? `${excerpt.slice(0, 100)}...` : excerpt}
+          </CardDescription>
+        )}
       </CardContent>
     </Card>
   );

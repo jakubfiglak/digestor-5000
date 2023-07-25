@@ -1,10 +1,14 @@
 'use client';
 
+import { SignInButton } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import type { Route } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
+
+import { Button } from '@/components/ui/button';
 
 import logo from './logo.png';
 
@@ -51,6 +55,14 @@ export const Navbar = ({ className }: NavbarProps) => {
             );
           })}
         </div>
+        <SignedOut>
+          <SignInButton>
+            <Button>Sign In</Button>
+          </SignInButton>
+        </SignedOut>
+        <SignedIn>
+          <UserButton afterSignOutUrl="/" />
+        </SignedIn>
       </ul>
     </nav>
   );

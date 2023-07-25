@@ -2,6 +2,8 @@ import { generateRssFeed } from '@/lib/utils/generate-rss-feed';
 import { getArticlesList } from '@/modules/articles/api';
 import { ArticleCard } from '@/modules/articles/components/article-card';
 
+export const dynamic = 'force-static';
+
 const ArticlesPage = async () => {
   await generateRssFeed();
   const articles = await getArticlesList();
@@ -14,7 +16,7 @@ const ArticlesPage = async () => {
         {articles.map((article) => (
           <li
             key={article.id}
-            className="md:first:col-span-2 xl:first:col-span-4"
+            className="md:first:col-span-2 xl:first:col-span-3"
           >
             <ArticleCard article={article} className="h-full" />
           </li>

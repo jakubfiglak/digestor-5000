@@ -10,6 +10,8 @@ import Link from 'next/link';
 import { getArticle, getArticleSlugsList } from '@/modules/articles/api';
 import { client } from '@/sanity/client';
 
+export const dynamic = 'force-static';
+
 const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
   const { width, height } = getImageDimensions(value);
 

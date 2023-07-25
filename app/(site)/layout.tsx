@@ -1,10 +1,13 @@
 import './globals.css';
 
+import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
 
 import { Navbar } from '@/components/nav/navbar';
 
 const inter = Inter({ subsets: ['latin'] });
+
+// export const dynamic = 'force-static';
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,13 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <header className="fixed left-0 top-0 flex h-20 w-full items-center bg-white shadow-md">
-          <Navbar className="mx-auto max-w-[1200px] flex-grow px-4" />
-        </header>
-        <main className="mx-auto max-w-[1200px] px-4 py-20">{children}</main>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <header className="fixed left-0 top-0 flex h-20 w-full items-center bg-white shadow-md">
+            <Navbar className="mx-auto max-w-[1200px] flex-grow px-4" />
+          </header>
+          <main className="mx-auto max-w-[1200px] px-4 py-20">{children}</main>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
