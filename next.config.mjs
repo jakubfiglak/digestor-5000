@@ -4,6 +4,7 @@ import './env.mjs';
 const nextConfig = {
   experimental: {
     typedRoutes: true,
+    serverActions: true,
   },
   images: {
     domains: ['cdn.sanity.io'],
