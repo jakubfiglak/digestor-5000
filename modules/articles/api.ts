@@ -5,7 +5,7 @@ import {
   articleDetailsSchema,
   articleSchema,
 } from '@/modules/articles/schemas';
-import { client } from '@/sanity/client';
+import { clientFetch } from '@/sanity/client';
 
 const coreArticleFields = groq`
   "id": _id,
@@ -21,7 +21,7 @@ const articlesListQuery = groq`*[_type == "article"] | order(_createdAt desc)[0.
 }`;
 
 export async function getArticlesList(limit = 10000) {
-  const data = await client.fetch(articlesListQuery, { limit });
+  const data = await clientFetch(articlesListQuery, { limit });
   return z.array(articleSchema).parse(data);
 }
 
@@ -53,7 +53,7 @@ const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
 }`;
 
 export async function getArticle(slug: string) {
-  const data = await client.fetch(articleQuery, { slug });
+  const data = await clientFetch(articleQuery, { slug });
   return articleDetailsSchema.parse(data);
 }
 
@@ -62,7 +62,7 @@ const articlesDetailsListQuery = groq`*[_type == "article"] {
 }`;
 
 export async function getArticlesDetailsList() {
-  const data = await client.fetch(articlesDetailsListQuery);
+  const data = await clientFetch(articlesDetailsListQuery);
   return z.array(articleDetailsSchema).parse(data);
 }
 
@@ -71,6 +71,6 @@ const articleSlugsListQuery = groq`*[_type == "article"] {
 }`;
 
 export async function getArticleSlugsList() {
-  const data = await client.fetch(articleSlugsListQuery);
+  const data = await clientFetch(articleSlugsListQuery);
   return z.array(z.object({ slug: z.string() })).parse(data);
 }

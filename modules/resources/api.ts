@@ -1,7 +1,7 @@
 import { groq } from 'next-sanity';
 import { z } from 'zod';
 
-import { client } from '@/sanity/client';
+import { clientFetch } from '@/sanity/client';
 
 import { resourceSchema } from './schemas';
 
@@ -27,7 +27,7 @@ const resourcesListQuery = groq`*[_type == "resource"] | order(_createdAt desc)[
 }`;
 
 export async function getResourcesList(limit = 10000) {
-  const data = await client.fetch(resourcesListQuery, { limit });
+  const data = await clientFetch(resourcesListQuery, { limit });
   return z.array(resourceSchema).parse(data);
 }
 
@@ -36,6 +36,6 @@ const resourcesListBySlugQuery = groq`*[_type == "resource" && references(*[_typ
 }`;
 
 export async function getResourcesListByTag(slug: string, limit = 10000) {
-  const data = await client.fetch(resourcesListBySlugQuery, { slug, limit });
+  const data = await clientFetch(resourcesListBySlugQuery, { slug, limit });
   return z.array(resourceSchema).parse(data);
 }

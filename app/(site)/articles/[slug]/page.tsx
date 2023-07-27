@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { getArticle, getArticleSlugsList } from '@/modules/articles/api';
-import { client } from '@/sanity/client';
+import { urlFor } from '@/sanity/client';
 
 export const dynamic = 'force-static';
 
@@ -18,7 +18,7 @@ const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
   return (
     <figure className="my-6">
       <Image
-        src={client.imageUrlBuilder.image(value).url()}
+        src={urlFor(value).url()}
         alt={value.alt}
         width={width}
         height={height}
@@ -55,7 +55,7 @@ const ArticlePage: NextPage<ArticlePageProps> = async ({
         {article.coverImage && (
           <figure className="my-6">
             <Image
-              src={client.imageUrlBuilder.image(article.coverImage).url()}
+              src={urlFor(article.coverImage).url()}
               alt={article.coverImage.alt}
               width={getImageDimensions(article.coverImage).width}
               height={getImageDimensions(article.coverImage).height}
