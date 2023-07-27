@@ -16,6 +16,7 @@ export const env = createEnv({
     SITE_URL: z.string().optional(),
     VERCEL_URL: z.string().regex(/^(?!http:\/\/|https:\/\/).*$/),
     CLERK_SECRET_KEY: z.string().min(1),
+    SANITY_SECRET_TOKEN: z.string().min(1),
   },
   /*
    * Environment variables available on the client (and server).
@@ -39,6 +40,7 @@ export const env = createEnv({
     VERCEL_URL: process.env.VERCEL_URL,
     SITE_URL: process.env.SITE_URL,
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+    SANITY_SECRET_TOKEN: process.env.SANITY_SECRET_TOKEN,
     NEXT_PUBLIC_SANITY_PROJECT_ID: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
     NEXT_PUBLIC_SANITY_DATASET: process.env.NEXT_PUBLIC_SANITY_DATASET,
     NEXT_PUBLIC_SANITY_API_VERSION: process.env.NEXT_PUBLIC_SANITY_API_VERSION,
