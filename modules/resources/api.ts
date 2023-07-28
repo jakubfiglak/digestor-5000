@@ -26,9 +26,6 @@ async function enhanceResourcesWithSubmitterData<
       ...resource,
       submitter: {
         id: submitter.id,
-        avatarUrl: submitter.profileImageUrl,
-        firstName: submitter.firstName,
-        lastName: submitter.lastName,
         email: submitter.emailAddresses[0]?.emailAddress,
       },
     };

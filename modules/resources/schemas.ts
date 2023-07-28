@@ -31,9 +31,6 @@ export const resourceSchema = z.object({
   submitter: z
     .object({
       id: z.string(),
-      avatarUrl: z.string().url().optional(),
-      firstName: z.string().optional(),
-      lastName: z.string().optional(),
       email: z.string().optional(),
     })
     .optional()

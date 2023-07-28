@@ -1,10 +1,7 @@
 import { StopwatchIcon } from '@radix-ui/react-icons';
-import Image from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
-import logo from '@/components/nav/logo.png';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -71,6 +68,11 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
           )}
         </div>
         <div className="text-xs text-slate-500 dark:text-slate-400">
+          <span className="mb-1 block">
+            {submitter
+              ? submitter.email ?? 'Unknown submitter'
+              : 'Frontend Digest Team'}
+          </span>
           <time dateTime={createdAt}>
             {new Intl.DateTimeFormat('en-US', {
               day: '2-digit',
@@ -106,31 +108,6 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
               </Link>
             ))}
         </div>
-        <Separator className="my-4" />
-        {submitter ? (
-          <div className="flex items-center gap-4">
-            <Avatar>
-              <AvatarImage
-                src={submitter.avatarUrl}
-                alt={`${submitter.firstName} ${submitter.lastName} avatar`}
-              />
-              <AvatarFallback>{`${submitter.firstName?.[0]}${submitter.lastName?.[0]}`}</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col text-sm">
-              <span>
-                {submitter.firstName} {submitter.lastName}
-              </span>
-              <span className="text-slate-500 dark:text-slate-400">
-                {submitter.email}
-              </span>
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center">
-            <Image src={logo} width={64} height={64} alt="Digestor 5000 logo" />
-            <span className="text-sm">FE Digest Team</span>
-          </div>
-        )}
       </CardFooter>
     </Card>
   );
