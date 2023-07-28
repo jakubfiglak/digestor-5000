@@ -38,7 +38,7 @@ async function Home() {
           <div className="flex items-center gap-4">
             <h2 className="text-3xl font-bold">Latest resources</h2>
             <Link
-              href="/submit/resource"
+              href="/resources/submit"
               className={buttonVariants({ variant: 'secondary' })}
             >
               Submit
