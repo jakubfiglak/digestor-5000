@@ -28,6 +28,13 @@ export const resourceSchema = z.object({
     .array(z.object({ id: z.string(), title: z.string(), slug: z.string() }))
     .optional()
     .nullable(),
+  submitter: z
+    .object({
+      id: z.string(),
+      email: z.string().optional(),
+    })
+    .optional()
+    .nullable(),
 });
 
 export type Resource = z.infer<typeof resourceSchema>;

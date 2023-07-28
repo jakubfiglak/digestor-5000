@@ -5,7 +5,7 @@ import fs from 'fs';
 import { env } from '@/env.mjs';
 import { getSiteUrl } from '@/lib/utils/get-site-url';
 import { getArticlesDetailsList } from '@/modules/articles/api';
-import { client } from '@/sanity/client';
+import { urlFor } from '@/sanity/client';
 
 export async function generateRssFeed() {
   if (env.VERCEL_ENV === 'development') {
@@ -34,7 +34,7 @@ export async function generateRssFeed() {
       ? /* html */ `
     <figure>
       <image
-        src="${client.imageUrlBuilder.image(coverImage).url()}"
+        src="${urlFor(coverImage).url()}"
         alt="${coverImage.alt}"
       />
       ${
@@ -66,7 +66,7 @@ export async function generateRssFeed() {
             return /* html */ `
             <figure>
               <image
-                src="${client.imageUrlBuilder.image(value).url()}"
+                src="${urlFor(value).url()}"
                 alt="${value.alt}"
               />
               ${

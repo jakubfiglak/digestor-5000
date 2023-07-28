@@ -4,10 +4,9 @@ import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
 
 import { Navbar } from '@/components/nav/navbar';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ subsets: ['latin'] });
-
-// export const dynamic = 'force-static';
 
 export const metadata = {
   title: 'Create Next App',
@@ -27,6 +26,7 @@ export default function RootLayout({
             <Navbar className="mx-auto max-w-[1200px] flex-grow px-4" />
           </header>
           <main className="mx-auto max-w-[1200px] px-4 py-20">{children}</main>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

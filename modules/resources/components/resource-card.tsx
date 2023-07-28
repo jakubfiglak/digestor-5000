@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import {
   Tooltip,
   TooltipContent,
@@ -36,6 +37,7 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
     articles,
     tags,
     scheduledForPublishing,
+    submitter,
   } = resource;
 
   return (
@@ -66,6 +68,11 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
           )}
         </div>
         <div className="text-xs text-slate-500 dark:text-slate-400">
+          <span className="mb-1 block">
+            {submitter
+              ? submitter.email ?? 'Unknown submitter'
+              : 'Frontend Digest Team'}
+          </span>
           <time dateTime={createdAt}>
             {new Intl.DateTimeFormat('en-US', {
               day: '2-digit',
@@ -92,13 +99,15 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
           </div>
         )}
       </CardContent>
-      <CardFooter className="flex flex-wrap gap-2">
-        {tags &&
-          tags.map((tag) => (
-            <Link href={`/resources/tags/${tag.slug}`} key={tag.slug}>
-              <Badge variant="outline">{tag.title}</Badge>
-            </Link>
-          ))}
+      <CardFooter className="block">
+        <div className="flex flex-wrap gap-2">
+          {tags &&
+            tags.map((tag) => (
+              <Link href={`/resources/tags/${tag.slug}`} key={tag.slug}>
+                <Badge variant="outline">{tag.title}</Badge>
+              </Link>
+            ))}
+        </div>
       </CardFooter>
     </Card>
   );

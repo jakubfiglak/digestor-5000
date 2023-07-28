@@ -97,5 +97,13 @@ export const resource = defineType({
       title: 'Scheduled for publishing',
       initialValue: false,
     }),
+    defineField({
+      name: 'submitterId',
+      type: 'string',
+      title: "Submitter's ID",
+      readOnly: true,
+      description:
+        'ID of the user who submitted this resource from the web app.',
+    }),
   ],
 });
