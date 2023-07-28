@@ -1,6 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -23,9 +25,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 
-import { submitResourceAction } from '../actions';
+import { submitResource } from '../actions';
 import { resourceTypeSchema } from '../schemas';
 
 const formSchema = z.object({
@@ -41,6 +44,8 @@ type SubmitResourceFormProps = {
 };
 
 export const SubmitResourceForm = ({ className }: SubmitResourceFormProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,11 +55,29 @@ export const SubmitResourceForm = ({ className }: SubmitResourceFormProps) => {
     },
   });
 
+  const { toast } = useToast();
+
   return (
     <Form {...form}>
       <form
         className={cn('flex flex-col gap-4', className)}
-        onSubmit={form.handleSubmit((data) => submitResourceAction(data))}
+        onSubmit={form.handleSubmit(async (data) => {
+          setIsLoading(true);
+
+          const result = await submitResource(data);
+
+          toast({
+            title: result.success ? 'Resource submitted' : 'Error',
+            description: result.message,
+            variant: result.success ? 'default' : 'destructive',
+          });
+
+          if (result.success) {
+            form.reset();
+          }
+
+          setIsLoading(false);
+        })}
       >
         <FormField
           control={form.control}
@@ -114,7 +137,10 @@ export const SubmitResourceForm = ({ className }: SubmitResourceFormProps) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit 🚀</Button>
+        <Button type="submit" disabled={isLoading}>
+          Submit 🚀
+          {isLoading && <ReloadIcon className="ml-2 h-4 w-4 animate-spin" />}
+        </Button>
       </form>
     </Form>
   );
