@@ -1,3 +1,6 @@
+import Link from 'next/link';
+
+import { buttonVariants } from '@/components/ui/button';
 import { getResourcesList } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
 
@@ -8,9 +11,15 @@ const ResourcesPage = async () => {
 
   return (
     <>
-      <h2 className="text-secondary my-6 text-center text-4xl font-bold">
-        Resources
-      </h2>
+      <div className="my-6 text-center">
+        <h2 className="text-secondary mb-6 text-4xl font-bold">Resources</h2>
+        <Link
+          href="/submit/resource"
+          className={buttonVariants({ variant: 'secondary', size: 'lg' })}
+        >
+          Submit a resource
+        </Link>
+      </div>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {resources.map((resource) => (
           <li key={resource.id}>

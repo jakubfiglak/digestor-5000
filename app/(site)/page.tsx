@@ -1,6 +1,7 @@
 import { ArrowRightIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 
+import { buttonVariants } from '@/components/ui/button';
 import { getArticlesList } from '@/modules/articles/api';
 import { ArticleCard } from '@/modules/articles/components/article-card';
 import { getResourcesList } from '@/modules/resources/api';
@@ -34,7 +35,15 @@ async function Home() {
       </section>
       <section>
         <div className="mb-6">
-          <h2 className="text-3xl font-bold">Latest resources</h2>
+          <div className="flex items-center gap-4">
+            <h2 className="text-3xl font-bold">Latest resources</h2>
+            <Link
+              href="/submit/resource"
+              className={buttonVariants({ variant: 'secondary' })}
+            >
+              Submit
+            </Link>
+          </div>
           <Link
             href="/resources"
             className="flex items-center gap-1 text-yellow-600"
