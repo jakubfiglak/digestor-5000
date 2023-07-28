@@ -1,5 +1,7 @@
 'use server';
 
+import { auth } from '@clerk/nextjs';
+import { revalidatePath } from 'next/cache';
 import slugify from 'slugify';
 
 import { client } from '@/sanity/client';
@@ -14,6 +16,15 @@ type SubmitResourceArgs = {
 };
 
 export async function submitResource({ title, type, url }: SubmitResourceArgs) {
+  const { userId } = auth();
+
+  if (!userId) {
+    return {
+      success: false,
+      message: 'You must be logged in to submit a resource',
+    };
+  }
+
   // Check if resource with the given URL already exists
   const existingResourcesByUrl = await getResourcesListByUrl(url);
 
@@ -40,8 +51,11 @@ export async function submitResource({ title, type, url }: SubmitResourceArgs) {
       title,
       slug: { current: slug },
       type,
+      submitterId: userId,
       url,
     });
+
+    revalidatePath('/resources');
 
     return {
       success: true,
