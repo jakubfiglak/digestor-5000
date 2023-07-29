@@ -1,7 +1,7 @@
 import { groq } from 'next-sanity';
 import { z } from 'zod';
 
-import { client, clientFetch } from '@/sanity/client';
+import { clientFetch } from '@/sanity/client';
 
 import { tagSchema } from './schemas';
 
@@ -14,6 +14,11 @@ const tagQuery = groq`*[_type == "tag" && slug.current == $slug][0] {
 
 export async function getTag(slug: string) {
   const data = await clientFetch(tagQuery, { slug });
+
+  if (!data) {
+    return null;
+  }
+
   return tagSchema.parse(data);
 }
 

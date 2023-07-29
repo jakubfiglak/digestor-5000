@@ -40,6 +40,8 @@ export async function generateStaticParams() {
   }));
 }
 
+export const dynamicParams = false;
+
 type ArticlePageProps = {
   params: { slug: string };
 };

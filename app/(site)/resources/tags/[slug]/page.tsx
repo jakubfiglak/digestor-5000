@@ -1,6 +1,7 @@
 import { currentUser } from '@clerk/nextjs';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 import { buttonVariants } from '@/components/ui/button';
 import { getResourcesListByTag } from '@/modules/resources/api';
@@ -17,6 +18,10 @@ const ResourceTagPage: NextPage<ResourceTagPageProps> = async ({ params }) => {
     getTag(params.slug),
     getResourcesListByTag(params.slug),
   ]);
+
+  if (!tag) {
+    notFound();
+  }
 
   return (
     <>
