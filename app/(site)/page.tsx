@@ -7,8 +7,6 @@ import { ArticleCard } from '@/modules/articles/components/article-card';
 import { getResourcesList } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
 
-export const dynamic = 'force-static';
-
 async function Home() {
   const articles = await getArticlesList(3);
   const resources = await getResourcesList(3);

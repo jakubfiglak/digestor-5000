@@ -2,16 +2,7 @@ import { NextPage } from 'next';
 
 import { getResourcesListByTag } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
-import { getTag, getTagsSlugList } from '@/modules/tags/api';
-
-export const dynamic = 'force-static';
-
-export async function generateStaticParams() {
-  const tags = await getTagsSlugList();
-  return tags.map((tag) => ({
-    slug: tag.slug,
-  }));
-}
+import { getTag } from '@/modules/tags/api';
 
 type ResourceTagPageProps = {
   params: { slug: string };

@@ -4,8 +4,6 @@ import { buttonVariants } from '@/components/ui/button';
 import { getResourcesList } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
 
-export const dynamic = 'force-static';
-
 const ResourcesPage = async () => {
   const resources = await getResourcesList();
 
