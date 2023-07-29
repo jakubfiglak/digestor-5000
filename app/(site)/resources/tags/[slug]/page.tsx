@@ -1,5 +1,8 @@
+import { currentUser } from '@clerk/nextjs';
 import { NextPage } from 'next';
+import Link from 'next/link';
 
+import { buttonVariants } from '@/components/ui/button';
 import { getResourcesListByTag } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
 import { getTag } from '@/modules/tags/api';
@@ -9,14 +12,25 @@ type ResourceTagPageProps = {
 };
 
 const ResourceTagPage: NextPage<ResourceTagPageProps> = async ({ params }) => {
-  const tag = await getTag(params.slug);
-  const resources = await getResourcesListByTag(params.slug);
+  const [user, tag, resources] = await Promise.all([
+    currentUser(),
+    getTag(params.slug),
+    getResourcesListByTag(params.slug),
+  ]);
 
   return (
     <>
-      <h2 className="text-secondary my-6 text-center text-4xl font-bold">
-        {tag.title}
-      </h2>
+      <div className="my-6 text-center">
+        <h2 className="text-secondary mb-6 text-4xl font-bold">{tag.title}</h2>
+        {user && (
+          <Link
+            href="/resources/submit"
+            className={buttonVariants({ variant: 'secondary', size: 'lg' })}
+          >
+            Submit a resource
+          </Link>
+        )}
+      </div>
       {tag.description && <p className="mb-4">{tag.description}</p>}
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {resources.map((resource) => (

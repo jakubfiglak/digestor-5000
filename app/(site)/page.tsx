@@ -1,3 +1,4 @@
+import { currentUser } from '@clerk/nextjs';
 import { ArrowRightIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 
@@ -8,8 +9,11 @@ import { getResourcesList } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
 
 async function Home() {
-  const articles = await getArticlesList(3);
-  const resources = await getResourcesList(3);
+  const [user, articles, resources] = await Promise.all([
+    currentUser(),
+    getArticlesList(3),
+    getResourcesList(3),
+  ]);
 
   return (
     <div className="mt-6">
@@ -35,12 +39,14 @@ async function Home() {
         <div className="mb-6">
           <div className="flex items-center gap-4">
             <h2 className="text-3xl font-bold">Latest resources</h2>
-            <Link
-              href="/resources/submit"
-              className={buttonVariants({ variant: 'secondary' })}
-            >
-              Submit
-            </Link>
+            {user && (
+              <Link
+                href="/resources/submit"
+                className={buttonVariants({ variant: 'secondary' })}
+              >
+                Submit
+              </Link>
+            )}
           </div>
           <Link
             href="/resources"
