@@ -3,56 +3,12 @@
 import { auth } from '@clerk/nextjs';
 import type { SanityImageAssetDocument } from 'next-sanity';
 import slugify from 'slugify';
-import { z } from 'zod';
 
+import { getBufferFromRemoteFile, getPageMetadata } from '@/lib/utils';
 import { client } from '@/sanity/client';
 
 import { getResourcesListBySlug, getResourcesListByUrl } from './api';
 import type { ResourceType } from './schemas';
-
-// ? DOCS: https://jsonlink.io/
-const JSON_LINK_API_URL = 'https://jsonlink.io/api/extract';
-
-const jsonLinkResponseSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
-  images: z.array(z.string()).optional(),
-});
-
-async function getResourceMetadata(url: string) {
-  const response = await fetch(`${JSON_LINK_API_URL}?url=${url}`);
-
-  if (!response.ok) {
-    return null;
-  }
-
-  const metadata = await response.json();
-
-  const parsedMetadata = jsonLinkResponseSchema.safeParse(metadata);
-
-  if (!parsedMetadata.success) {
-    return null;
-  }
-
-  const { title, description, images } = parsedMetadata.data;
-
-  return {
-    title,
-    image: images?.[0],
-    description,
-  };
-}
-
-async function getBufferFromRemoteFile(url: string) {
-  const response = await fetch(url);
-
-  if (response.ok) {
-    const data = await response.arrayBuffer();
-    return Buffer.from(data);
-  }
-
-  return null;
-}
 
 type SubmitResourceArgs = {
   url: string;
@@ -91,7 +47,7 @@ export async function submitResource({ title, type, url }: SubmitResourceArgs) {
   }
 
   // Get article metadata
-  const metadata = await getResourceMetadata(url);
+  const metadata = await getPageMetadata(url);
 
   // Get image buffer and upload asset to Sanity
   let asset: SanityImageAssetDocument | undefined;
