@@ -86,6 +86,11 @@ export const resource = defineType({
         }),
     }),
     defineField({
+      name: 'imageUrl',
+      type: 'url',
+      title: 'Image URL',
+    }),
+    defineField({
       name: 'tags',
       type: 'array',
       title: 'Tags',
