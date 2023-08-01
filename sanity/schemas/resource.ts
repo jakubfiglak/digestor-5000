@@ -86,9 +86,23 @@ export const resource = defineType({
         }),
     }),
     defineField({
-      name: 'imageUrl',
-      type: 'url',
-      title: 'Image URL',
+      name: 'image',
+      type: 'image',
+      title: 'Image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alt text',
+          validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+          name: 'caption',
+          type: 'string',
+          title: 'Caption',
+        }),
+      ],
     }),
     defineField({
       name: 'tags',

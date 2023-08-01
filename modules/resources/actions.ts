@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@clerk/nextjs';
+import type { SanityImageAssetDocument } from 'next-sanity';
 import slugify from 'slugify';
 import { z } from 'zod';
 
@@ -54,9 +55,9 @@ async function getBufferFromRemoteFile(url: string) {
 }
 
 type SubmitResourceArgs = {
+  url: string;
   title: string;
   type: ResourceType;
-  url: string;
 };
 
 export async function submitResource({ title, type, url }: SubmitResourceArgs) {
@@ -92,16 +93,37 @@ export async function submitResource({ title, type, url }: SubmitResourceArgs) {
   // Get article metadata
   const metadata = await getResourceMetadata(url);
 
+  // Get image buffer and upload asset to Sanity
+  let asset: SanityImageAssetDocument | undefined;
+
+  if (metadata?.image) {
+    const buffer = await getBufferFromRemoteFile(metadata.image);
+
+    if (buffer) {
+      asset = await client.assets.upload('image', buffer, {
+        filename: slug,
+      });
+    }
+  }
+
   try {
     const resource = await client.create({
       _type: 'resource',
-      title,
+      title: metadata?.title || title,
       description: metadata?.description ?? '',
-      imageUrl: metadata?.image ?? '',
       slug: { current: slug },
       type,
       submitterId: userId,
       url,
+      ...(asset
+        ? {
+            image: {
+              _type: 'image',
+              asset: { _ref: asset._id },
+              alt: metadata?.title || title,
+            },
+          }
+        : {}),
     });
 
     return {

@@ -1,12 +1,9 @@
 {
-  "extends": ["next/core-web-vitals", "airbnb", "prettier"],
+  "extends": ["next/core-web-vitals", "prettier"],
   "plugins": ["prettier", "simple-import-sort"],
   "rules": {
     "prettier/prettier": "error",
     "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-    "import/extensions": ["error", "never"],
-    "import/no-extraneous-dependencies": "off",
-    "import/prefer-default-export": "off"
+    "simple-import-sort/exports": "error"
   }
 }
