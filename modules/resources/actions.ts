@@ -4,11 +4,34 @@ import { auth } from '@clerk/nextjs';
 import type { SanityImageAssetDocument } from 'next-sanity';
 import slugify from 'slugify';
 
-import { getBufferFromRemoteFile, getPageMetadata } from '@/lib/utils';
+import { getBufferFromRemoteFile } from '@/lib/utils/get-buffer-from-remote-file';
+import { getPageMetadata } from '@/lib/utils/get-page-metadata';
 import { client } from '@/sanity/client';
 
 import { getResourcesListBySlug, getResourcesListByUrl } from './api';
 import type { ResourceType } from './schemas';
+
+type UploadRemoteAssetToSanityArgs = {
+  url: string;
+  filename: string;
+};
+
+async function uploadRemoteAssetToSanity({
+  url,
+  filename,
+}: UploadRemoteAssetToSanityArgs) {
+  const buffer = await getBufferFromRemoteFile(url);
+
+  if (!buffer) {
+    return null;
+  }
+
+  const asset = await client.assets.upload('image', buffer, {
+    filename,
+  });
+
+  return asset;
+}
 
 type SubmitResourceArgs = {
   url: string;
@@ -49,17 +72,14 @@ export async function submitResource({ title, type, url }: SubmitResourceArgs) {
   // Get article metadata
   const metadata = await getPageMetadata(url);
 
-  // Get image buffer and upload asset to Sanity
-  let asset: SanityImageAssetDocument | undefined;
+  // Upload image to Sanity
+  let asset: SanityImageAssetDocument | undefined | null;
 
   if (metadata?.image) {
-    const buffer = await getBufferFromRemoteFile(metadata.image);
-
-    if (buffer) {
-      asset = await client.assets.upload('image', buffer, {
-        filename: slug,
-      });
-    }
+    asset = await uploadRemoteAssetToSanity({
+      url: metadata.image,
+      filename: slug,
+    });
   }
 
   try {

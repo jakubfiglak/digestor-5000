@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/utils/cn';
 
 import { submitResource } from '../actions';
 import { resourceTypeSchema } from '../schemas';
