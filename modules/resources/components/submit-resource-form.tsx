@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -32,9 +33,7 @@ import { submitResource } from '../actions';
 import { resourceTypeSchema } from '../schemas';
 
 const formSchema = z.object({
-  title: z
-    .string()
-    .min(2, { message: 'Title must be at least 2 characters long' }),
+  title: z.string().optional(),
   type: resourceTypeSchema,
   url: z.string().url(),
 });
@@ -81,10 +80,10 @@ export const SubmitResourceForm = ({ className }: SubmitResourceFormProps) => {
       >
         <FormField
           control={form.control}
-          name="title"
+          name="url"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>URL</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -126,13 +125,16 @@ export const SubmitResourceForm = ({ className }: SubmitResourceFormProps) => {
         />
         <FormField
           control={form.control}
-          name="url"
+          name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>URL</FormLabel>
+              <FormLabel>Title</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
+              <FormDescription>
+                Optional, will be fetched from the URL if not provided
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

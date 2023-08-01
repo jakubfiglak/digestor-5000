@@ -35,8 +35,8 @@ async function uploadRemoteAssetToSanity({
 
 type SubmitResourceArgs = {
   url: string;
-  title: string;
   type: ResourceType;
+  title?: string;
 };
 
 export async function submitResource({ title, type, url }: SubmitResourceArgs) {
@@ -59,8 +59,22 @@ export async function submitResource({ title, type, url }: SubmitResourceArgs) {
     };
   }
 
+  // Get article metadata
+  const metadata = await getPageMetadata(url);
+
+  // Get the resource title
+  let finalTitle = metadata?.title || title;
+
+  if (!finalTitle) {
+    return {
+      success: false,
+      message:
+        'You have not provided a title and we were not able to fetch it from the URL. Please provide a title',
+    };
+  }
+
   // Generate slug and check if resource with the given slug already exists
-  let slug = slugify(title, { lower: true });
+  let slug = slugify(finalTitle, { lower: true });
 
   const existingResourcesBySlug = await getResourcesListBySlug(slug);
 
@@ -68,9 +82,6 @@ export async function submitResource({ title, type, url }: SubmitResourceArgs) {
   if (existingResourcesBySlug.length > 0) {
     slug = `${slug}-${existingResourcesBySlug.length}`;
   }
-
-  // Get article metadata
-  const metadata = await getPageMetadata(url);
 
   // Upload image to Sanity
   let asset: SanityImageAssetDocument | undefined | null;
@@ -85,7 +96,7 @@ export async function submitResource({ title, type, url }: SubmitResourceArgs) {
   try {
     const resource = await client.create({
       _type: 'resource',
-      title: metadata?.title || title,
+      title: finalTitle,
       description: metadata?.description ?? '',
       slug: { current: slug },
       type,
