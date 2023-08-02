@@ -1,4 +1,5 @@
 import { StopwatchIcon } from '@radix-ui/react-icons';
+import Image, { type StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
@@ -11,16 +12,31 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { urlFor } from '@/sanity/client';
 
-import type { Resource } from '../schemas';
+import type { Resource, ResourceType } from '../schemas';
+import article from './assets/article.jpg';
+import github from './assets/github.jpeg';
+import podcast from './assets/podcast.webp';
+import twitter from './assets/twitter.webp';
+import video from './assets/video.png';
+import whatchamacallit from './assets/whatchamacallit.webp';
 import { ResourceTypeBadge } from './resource-type-badge';
+
+const fallbackImages: Record<ResourceType, StaticImageData> = {
+  'twitter-thread': twitter,
+  video,
+  'github-thread': github,
+  podcast,
+  article,
+  whatchamacallit,
+};
 
 type ResourceCardProps = {
   resource: Resource;
@@ -34,6 +50,7 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
     type,
     createdAt,
     description,
+    image,
     articles,
     tags,
     scheduledForPublishing,
@@ -85,10 +102,17 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
         </div>
       </CardHeader>
       <CardContent className="flex-grow">
+        <Image
+          src={image ? urlFor(image.asset._ref).url() : fallbackImages[type]}
+          alt={image?.alt || title}
+          className="mb-4 h-40 rounded-lg object-cover"
+          width={500}
+          height={160}
+        />
         <CardDescription className="mb-3">{description}</CardDescription>
         {articles && articles.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
-            <CardDescription>Mentioned in:</CardDescription>
+            <CardDescription>Featured in:</CardDescription>
             {articles.map(({ id, title, slug }) => (
               <Link key={id} href={`/articles/${slug}`}>
                 <Badge key={id} variant="secondary">

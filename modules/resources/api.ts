@@ -37,6 +37,9 @@ const resourceFields = groq`
   title,
   "slug": slug.current,
   description,
+  image {
+    ...
+  },
   type,
   url,
   "createdAt": _createdAt,
