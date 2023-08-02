@@ -16,6 +16,17 @@ export const resourceSchema = z.object({
   title: z.string(),
   slug: z.string(),
   description: z.string().optional().nullable(),
+  image: z
+    .object({
+      alt: z.string(),
+      caption: z.string().optional().nullable(),
+      asset: z.object({
+        _ref: z.string(),
+        _type: z.string().optional().nullable(),
+      }),
+    })
+    .optional()
+    .nullable(),
   type: resourceTypeSchema,
   url: z.string().url(),
   scheduledForPublishing: z.boolean().optional().nullable(),
