@@ -41,7 +41,7 @@ async function Home() {
             <h2 className="text-3xl font-bold">Latest resources</h2>
             {user && (
               <Link
-                href="/resources/submit"
+                href="/creator/resources"
                 className={buttonVariants({ variant: 'secondary' })}
               >
                 Submit

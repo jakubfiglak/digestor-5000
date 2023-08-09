@@ -17,7 +17,7 @@ const ResourcesPage = async () => {
         <h2 className="text-secondary mb-6 text-4xl font-bold">Resources</h2>
         {user && (
           <Link
-            href="/resources/submit"
+            href="/creator/resources"
             className={buttonVariants({ variant: 'secondary', size: 'lg' })}
           >
             Submit a resource
