@@ -12,6 +12,7 @@ export const client = createClient({
   apiVersion: env.NEXT_PUBLIC_SANITY_API_VERSION, // https://www.sanity.io/docs/api-versioning
   useCdn: false,
   studioUrl: '/studio',
+  perspective: 'published',
 });
 
 export const clientFetch = cache(client.fetch.bind(client));
