@@ -77,6 +77,11 @@ export async function scaffoldArticle({ title }: ScaffoldArticleArgs) {
   try {
     const article = await client.create({
       _type: 'article',
+      /**
+       * This ensures that an article is created as a draft
+       * https://www.sanity.io/docs/js-client#creating-documents
+       */
+      _id: 'drafts.',
       title,
       slug: { current: slug },
       content,
@@ -84,7 +89,7 @@ export async function scaffoldArticle({ title }: ScaffoldArticleArgs) {
 
     return {
       success: true,
-      message: 'Resource submitted successfully!',
+      message: 'Article scaffolded successfully!',
       data: article,
     };
   } catch (error) {

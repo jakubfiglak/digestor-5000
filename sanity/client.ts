@@ -1,6 +1,6 @@
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
-import { createClient, SanityClient } from 'next-sanity';
+import { createClient } from 'next-sanity';
 import { cache } from 'react';
 
 import { env } from '@/env.mjs';
