@@ -22,7 +22,7 @@ import { cn } from '@/lib/utils/cn';
 import { scaffoldArticle } from '../actions';
 
 const formSchema = z.object({
-  title: z.string(),
+  title: z.string().nonempty(),
 });
 
 type ScaffoldArticleFormProps = {

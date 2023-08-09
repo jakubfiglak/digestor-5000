@@ -8,6 +8,7 @@ import {
   buildParagraph,
   buildResourceListItem,
 } from '@/lib/utils/portable-text';
+import { getArticlesListBySlug } from '@/modules/articles/api';
 import { getResourcesListForArticleScaffold } from '@/modules/resources/api';
 import { client } from '@/sanity/client';
 
@@ -53,20 +54,22 @@ export async function scaffoldArticle({ title }: ScaffoldArticleArgs) {
   // Generate slug and check if resource with the given slug already exists
   let slug = slugify(title, { lower: true });
 
-  // const existingArticlesBySlug = await getArticlesListBySlug(slug);
+  const existingArticlesBySlug = await getArticlesListBySlug(slug);
 
   // If resource with the given slug already exists, append a number to the slug
-  // if (existingArticlesBySlug.length > 0) {
-  //   slug = `${slug}-${existingArticlesBySlug.length}`;
-  // }
+  if (existingArticlesBySlug.length > 0) {
+    slug = `${slug}-${existingArticlesBySlug.length}`;
+  }
+
+  // Generate article content
   const content = await generateArticleContent();
+
   try {
     const article = await client.create({
       _type: 'article',
       title,
       slug: { current: slug },
       content,
-      // submitterId: userId,
     });
 
     return {
