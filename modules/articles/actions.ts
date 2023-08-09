@@ -3,6 +3,7 @@
 import { auth } from '@clerk/nextjs';
 import slugify from 'slugify';
 
+import { checkIsEditor } from '@/lib/utils/check-is-editor';
 import {
   buildHeading,
   buildParagraph,
@@ -48,6 +49,15 @@ export async function scaffoldArticle({ title }: ScaffoldArticleArgs) {
     return {
       success: false,
       message: 'You must be logged in to scaffold an article',
+    };
+  }
+
+  const isEditor = await checkIsEditor(userId);
+
+  if (!isEditor) {
+    return {
+      success: false,
+      message: 'You must be an editor to scaffold an article',
     };
   }
 

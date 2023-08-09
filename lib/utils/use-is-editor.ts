@@ -2,6 +2,8 @@
 
 import { useOrganizationList } from '@clerk/nextjs';
 
+import { editorsOrgId } from '../constants';
+
 export function useIsEditor() {
   const { isLoaded, organizationList } = useOrganizationList();
 
@@ -10,6 +12,6 @@ export function useIsEditor() {
   }
 
   return organizationList.some(
-    (org) => org.membership.organization.name === 'Editors'
+    (org) => org.membership.organization.id === editorsOrgId
   );
 }
