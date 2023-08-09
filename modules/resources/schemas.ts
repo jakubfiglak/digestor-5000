@@ -14,8 +14,16 @@ export type ResourceType = z.infer<typeof resourceTypeSchema>;
 export const resourceSchema = z.object({
   id: z.string(),
   title: z.string(),
-  slug: z.string(),
   description: z.string().optional().nullable(),
+  type: resourceTypeSchema,
+  url: z.string().url(),
+  articles: z.array(z.object({ id: z.string() })),
+});
+
+export type Resource = z.infer<typeof resourceSchema>;
+
+export const resourceDetailsSchema = resourceSchema.extend({
+  slug: z.string(),
   image: z
     .object({
       alt: z.string(),
@@ -27,8 +35,6 @@ export const resourceSchema = z.object({
     })
     .optional()
     .nullable(),
-  type: resourceTypeSchema,
-  url: z.string().url(),
   scheduledForPublishing: z.boolean().optional().nullable(),
   tags: z
     .array(z.object({ title: z.string(), slug: z.string() }))
@@ -48,4 +54,4 @@ export const resourceSchema = z.object({
     .nullable(),
 });
 
-export type Resource = z.infer<typeof resourceSchema>;
+export type ResourceDetails = z.infer<typeof resourceDetailsSchema>;

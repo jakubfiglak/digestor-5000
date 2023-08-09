@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { clientFetch } from '@/sanity/client';
 
-import { resourceSchema } from './schemas';
+import { resourceDetailsSchema, resourceSchema } from './schemas';
 
 async function enhanceResourcesWithSubmitterData<
   T extends { submitterId?: string | null }
@@ -61,7 +61,7 @@ export async function getResourcesList(limit = 10000) {
   const data = await clientFetch(resourcesListQuery, { limit });
 
   const dataWithUsers = await enhanceResourcesWithSubmitterData(data);
-  return z.array(resourceSchema).parse(dataWithUsers);
+  return z.array(resourceDetailsSchema).parse(dataWithUsers);
 }
 
 const resourcesListByTagQuery = groq`*[_type == "resource" && references(*[_type == 'tag' && slug.current == $slug]._id)] | order(_createdAt desc)[0...$limit] {
@@ -72,7 +72,7 @@ export async function getResourcesListByTag(slug: string, limit = 10000) {
   const data = await clientFetch(resourcesListByTagQuery, { slug, limit });
 
   const dataWithUsers = await enhanceResourcesWithSubmitterData(data);
-  return z.array(resourceSchema).parse(dataWithUsers);
+  return z.array(resourceDetailsSchema).parse(dataWithUsers);
 }
 
 const resourcesListByUrlQuery = groq`*[_type == 'resource' && url == $url] {
@@ -91,4 +91,20 @@ const resourcesListBySlugQuery = groq`*[_type == 'resource' && slug.current == $
 export async function getResourcesListBySlug(slug: string) {
   const data = await clientFetch(resourcesListBySlugQuery, { slug });
   return z.array(z.object({ id: z.string() })).parse(data);
+}
+
+const resourcesListForArticleScaffoldQuery = groq`*[_type == 'resource' && scheduledForPublishing == true] {
+  "id": _id,
+  title,
+  description,
+  url,
+  type,
+  "articles": *[_type == "article" && references(^._id)] {
+    "id": _id,
+  },
+}`;
+
+export async function getResourcesListForArticleScaffold() {
+  const data = await clientFetch(resourcesListForArticleScaffoldQuery);
+  return z.array(resourceSchema).parse(data);
 }
