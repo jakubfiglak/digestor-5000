@@ -31,7 +31,7 @@ export const Navbar = ({ className }: NavbarProps) => {
     <nav className={className}>
       <ul className="flex items-center gap-6">
         <li>
-          <Link href="/" className="transition-colors hover:text-orange-500">
+          <Link href="/">
             <h1 className="sr-only">Digestor 5000</h1>
             <Image src={logo} width={64} height={64} alt="Digestor 5000 logo" />
           </Link>
@@ -45,8 +45,8 @@ export const Navbar = ({ className }: NavbarProps) => {
                 <Link
                   href={href}
                   className={twMerge(
-                    'transition-colors hover:text-orange-500',
-                    isActive && 'text-orange-500'
+                    'rounded-sm px-2 py-1 transition-colors hover:bg-primary',
+                    isActive && 'bg-primary'
                   )}
                 >
                   {name}
