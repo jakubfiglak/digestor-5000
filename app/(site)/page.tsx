@@ -22,7 +22,7 @@ async function Home() {
           <h2 className="text-3xl font-bold">Latest articles</h2>
           <Link
             href="/articles"
-            className="flex items-center gap-1 text-yellow-600"
+            className="flex items-center gap-1 text-muted-foreground"
           >
             View all <ArrowRightIcon />
           </Link>
@@ -42,7 +42,7 @@ async function Home() {
             {user && (
               <Link
                 href="/resources/submit"
-                className={buttonVariants({ variant: 'secondary' })}
+                className={buttonVariants({ variant: 'outline' })}
               >
                 Submit
               </Link>
@@ -50,7 +50,7 @@ async function Home() {
           </div>
           <Link
             href="/resources"
-            className="flex items-center gap-1 text-yellow-600"
+            className="flex items-center gap-1 text-muted-foreground"
           >
             View all <ArrowRightIcon />
           </Link>

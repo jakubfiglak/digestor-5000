@@ -14,11 +14,11 @@ const ResourcesPage = async () => {
   return (
     <>
       <div className="my-6 text-center">
-        <h2 className="text-secondary mb-6 text-4xl font-bold">Resources</h2>
+        <h2 className="mb-6 text-4xl font-bold">Resources</h2>
         {user && (
           <Link
             href="/resources/submit"
-            className={buttonVariants({ variant: 'secondary', size: 'lg' })}
+            className={buttonVariants({ variant: 'outline', size: 'lg' })}
           >
             Submit a resource
           </Link>
