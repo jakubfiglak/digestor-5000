@@ -11,6 +11,7 @@ import { twMerge } from 'tailwind-merge';
 import { Button } from '@/components/ui/button';
 
 import logo from './logo.png';
+import { ThemeToggle } from './theme-toggle';
 
 const links: Array<{ name: string; href: Route }> = [
   { name: 'Resources', href: '/resources' },
@@ -63,6 +64,7 @@ export const Navbar = ({ className }: NavbarProps) => {
         <SignedIn>
           <UserButton afterSignOutUrl="/" />
         </SignedIn>
+        <ThemeToggle />
       </ul>
     </nav>
   );
