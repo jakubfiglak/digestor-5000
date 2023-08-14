@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
 import { getArticlesList } from '@/modules/articles/api';
 import { ArticleCard } from '@/modules/articles/components/article-card';
+import { ScaffoldArticleLink } from '@/modules/articles/components/scaffold-article-link';
 import { getResourcesList } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
 
@@ -19,7 +20,10 @@ async function Home() {
     <div className="mt-6">
       <section className="mb-6">
         <div className="mb-6">
-          <h2 className="text-3xl font-bold">Latest articles</h2>
+          <div className="flex items-center gap-4">
+            <h2 className="text-3xl font-bold">Latest articles</h2>
+            <ScaffoldArticleLink />
+          </div>
           <Link
             href="/articles"
             className="flex items-center gap-1 text-yellow-600"
@@ -41,7 +45,7 @@ async function Home() {
             <h2 className="text-3xl font-bold">Latest resources</h2>
             {user && (
               <Link
-                href="/resources/submit"
+                href="/creator/resources"
                 className={buttonVariants({ variant: 'secondary' })}
               >
                 Submit

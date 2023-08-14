@@ -74,3 +74,12 @@ export async function getArticleSlugsList() {
   const data = await clientFetch(articleSlugsListQuery);
   return z.array(z.object({ slug: z.string() })).parse(data);
 }
+
+const articlesListBySlugQuery = groq`*[_type == 'article' && slug.current == $slug] {
+  "id": _id
+}`;
+
+export async function getArticlesListBySlug(slug: string) {
+  const data = await clientFetch(articlesListBySlugQuery, { slug });
+  return z.array(z.object({ id: z.string() })).parse(data);
+}

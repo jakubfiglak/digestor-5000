@@ -29,7 +29,7 @@ const ResourceTagPage: NextPage<ResourceTagPageProps> = async ({ params }) => {
         <h2 className="text-secondary mb-6 text-4xl font-bold">{tag.title}</h2>
         {user && (
           <Link
-            href="/resources/submit"
+            href="/creator/resources"
             className={buttonVariants({ variant: 'secondary', size: 'lg' })}
           >
             Submit a resource
