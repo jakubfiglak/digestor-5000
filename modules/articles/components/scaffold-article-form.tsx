@@ -60,6 +60,7 @@ export const ScaffoldArticleForm = ({
 
           if (result.success) {
             form.reset();
+            window.open(`/studio/desk/article;${result.data?._id}`, '_blank');
           }
 
           setIsLoading(false);
