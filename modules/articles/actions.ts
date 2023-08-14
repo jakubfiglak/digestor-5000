@@ -18,11 +18,11 @@ async function generateArticleContent() {
 
   const thoughtProvoking = resources.filter(
     (resource) =>
-      resource.articles.length === 0 && resource.type !== 'whatchamacallit'
+      resource.articles?.length === 0 && resource.type !== 'whatchamacallit'
   );
   const whatchamacallits = resources.filter(
     (resource) =>
-      resource.articles.length === 0 && resource.type === 'whatchamacallit'
+      resource.articles?.length === 0 && resource.type === 'whatchamacallit'
   );
 
   return [

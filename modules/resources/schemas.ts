@@ -17,7 +17,10 @@ export const resourceSchema = z.object({
   description: z.string().optional().nullable(),
   type: resourceTypeSchema,
   url: z.string().url(),
-  articles: z.array(z.object({ id: z.string() })),
+  articles: z
+    .array(z.object({ id: z.string() }))
+    .optional()
+    .nullable(),
 });
 
 export type Resource = z.infer<typeof resourceSchema>;

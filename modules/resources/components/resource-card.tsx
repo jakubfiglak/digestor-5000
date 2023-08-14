@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/tooltip';
 import { urlFor } from '@/sanity/client';
 
-import type { Resource, ResourceType } from '../schemas';
+import type { ResourceDetails, ResourceType } from '../schemas';
 import article from './assets/article.jpg';
 import github from './assets/github.jpeg';
 import podcast from './assets/podcast.webp';
@@ -39,7 +39,7 @@ const fallbackImages: Record<ResourceType, StaticImageData> = {
 };
 
 type ResourceCardProps = {
-  resource: Resource;
+  resource: ResourceDetails;
   className?: string;
 };
 
