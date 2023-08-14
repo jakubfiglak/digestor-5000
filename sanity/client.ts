@@ -1,6 +1,6 @@
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
-import { createClient, SanityClient } from 'next-sanity';
+import { createClient } from 'next-sanity';
 import { cache } from 'react';
 
 import { env } from '@/env.mjs';
@@ -12,6 +12,7 @@ export const client = createClient({
   apiVersion: env.NEXT_PUBLIC_SANITY_API_VERSION, // https://www.sanity.io/docs/api-versioning
   useCdn: false,
   studioUrl: '/studio',
+  perspective: 'published',
 });
 
 export const clientFetch = cache(client.fetch.bind(client));

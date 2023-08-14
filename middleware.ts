@@ -4,8 +4,7 @@ export default authMiddleware({
   publicRoutes: [
     '/',
     '/articles(.*)',
-    '/resources',
-    '/resources/tags(.*)',
+    '/resources(.*)',
     '/studio(.*)',
     '/protected-route',
   ],
