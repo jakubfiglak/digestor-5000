@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/tooltip';
 import { urlFor } from '@/sanity/client';
 
-import type { ResourceDetails, ResourceType } from '../schemas';
+import type { Resource, ResourceType } from '../schemas';
 import article from './assets/article.jpg';
 import github from './assets/github.jpeg';
 import podcast from './assets/podcast.webp';
@@ -39,7 +39,7 @@ const fallbackImages: Record<ResourceType, StaticImageData> = {
 };
 
 type ResourceCardProps = {
-  resource: ResourceDetails;
+  resource: Resource;
   className?: string;
 };
 
@@ -105,7 +105,7 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
         <Image
           src={image ? urlFor(image.asset._ref).url() : fallbackImages[type]}
           alt={image?.alt || title}
-          className="mb-4 h-40 rounded-lg object-cover"
+          className="mb-4 h-40 rounded-lg object-cover object-center"
           width={500}
           height={160}
         />
