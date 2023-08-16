@@ -25,7 +25,7 @@ export const ScaffoldArticleLink = ({
   return (
     <Link
       href="/creator/articles"
-      className={cn(buttonVariants({ variant: 'secondary' }), className)}
+      className={cn(buttonVariants({ variant: 'outline' }), className)}
     >
       {children || 'Scaffold'}
     </Link>

@@ -67,7 +67,7 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
             rel="noopener noreferrer"
             className="group"
           >
-            <CardTitle className="transition-colors group-hover:text-orange-500">
+            <CardTitle className="transition-colors group-hover:text-primary">
               {title}
             </CardTitle>
           </a>
@@ -75,7 +75,7 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <StopwatchIcon className="h-5 w-5 flex-shrink-0 text-orange-500" />
+                  <StopwatchIcon className="h-5 w-5 flex-shrink-0 text-primary" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <span>Scheduled for publishing</span>
@@ -84,7 +84,7 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
             </TooltipProvider>
           )}
         </div>
-        <div className="text-xs text-slate-500 dark:text-slate-400">
+        <div className="text-xs text-muted-foreground">
           <span className="mb-1 block">
             {submitter
               ? submitter.email ?? 'Unknown submitter'
@@ -105,7 +105,7 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
         <Image
           src={image ? urlFor(image.asset._ref).url() : fallbackImages[type]}
           alt={image?.alt || title}
-          className="mb-4 h-40 rounded-lg object-cover"
+          className="mb-4 h-40 rounded-lg object-cover object-center"
           width={500}
           height={160}
         />

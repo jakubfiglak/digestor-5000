@@ -23,11 +23,11 @@ export const ArticleCard = ({ article, className }: ArticleCardProps) => {
     <Card className={cn('flex flex-col', className)}>
       <CardHeader>
         <Link href={`/articles/${slug}`} className="group">
-          <CardTitle className="transition-colors group-hover:text-orange-500">
+          <CardTitle className="inline-block transition-colors group-hover:text-primary">
             {title}
           </CardTitle>
         </Link>
-        <div className="text-xs text-slate-500 dark:text-slate-400">
+        <div className="text-xs text-muted-foreground">
           <time dateTime={createdAt}>
             {new Intl.DateTimeFormat('en-US', {
               day: '2-digit',

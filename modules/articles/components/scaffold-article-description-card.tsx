@@ -23,12 +23,15 @@ export const ScaffoldArticleDescriptionCard = async ({
           Would you like to create an article automatically? It is possible now!
           Just provide a title and we will take care of the rest! We will create
           an article draft using{' '}
-          <Link href="/resources" className="text-orange-500">
+          <Link
+            href="/resources"
+            className="relative bottom-0 left-0 inline-block after:block after:h-[2px] after:w-full after:bg-primary"
+          >
             resources
           </Link>{' '}
-          with <em className="bg-slate-200 p-[2px]">scheduledForPublishing</em>{' '}
-          flag set to <em className="bg-slate-200 p-[2px]">true</em> that have
-          not been used in any previous article. Check it out!
+          with <em className="bg-muted">scheduledForPublishing</em> flag set to{' '}
+          <em className="bg-muted">true</em> that have not been used in any
+          previous article. Check it out!
         </p>
       </CardContent>
     </Card>

@@ -2,15 +2,15 @@
 
 import { SignInButton } from '@clerk/clerk-react';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import { CrumpledPaperIcon } from '@radix-ui/react-icons';
 import type { Route } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
 import { Button } from '@/components/ui/button';
 
-import logo from './logo.png';
+import { ThemeToggle } from './theme-toggle';
 
 const links: Array<{ name: string; href: Route }> = [
   { name: 'Resources', href: '/resources' },
@@ -31,9 +31,11 @@ export const Navbar = ({ className }: NavbarProps) => {
     <nav className={className}>
       <ul className="flex items-center gap-6">
         <li>
-          <Link href="/" className="transition-colors hover:text-orange-500">
-            <h1 className="sr-only">Digestor 5000</h1>
-            <Image src={logo} width={64} height={64} alt="Digestor 5000 logo" />
+          <Link href="/" className="flex items-center gap-2">
+            <CrumpledPaperIcon className="h-8 w-8 text-primary" />
+            <h1 className="sr-only font-bold uppercase md:not-sr-only">
+              Digestor5000
+            </h1>
           </Link>
         </li>
         <div className="ml-auto flex items-center gap-6">
@@ -45,8 +47,8 @@ export const Navbar = ({ className }: NavbarProps) => {
                 <Link
                   href={href}
                   className={twMerge(
-                    'transition-colors hover:text-orange-500',
-                    isActive && 'text-orange-500'
+                    'rounded-sm px-2 py-1 transition-colors hover:bg-primary',
+                    isActive && 'bg-primary'
                   )}
                 >
                   {name}
@@ -54,15 +56,16 @@ export const Navbar = ({ className }: NavbarProps) => {
               </li>
             );
           })}
+          <SignedOut>
+            <SignInButton>
+              <Button>Sign In</Button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+          <ThemeToggle />
         </div>
-        <SignedOut>
-          <SignInButton>
-            <Button>Sign In</Button>
-          </SignInButton>
-        </SignedOut>
-        <SignedIn>
-          <UserButton afterSignOutUrl="/" />
-        </SignedIn>
       </ul>
     </nav>
   );

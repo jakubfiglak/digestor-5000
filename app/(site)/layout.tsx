@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google';
 
 import { Navbar } from '@/components/nav/navbar';
 import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from '@/providers/theme-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,11 +23,15 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <header className="fixed left-0 top-0 flex h-20 w-full items-center bg-white shadow-md">
-            <Navbar className="mx-auto max-w-[1200px] flex-grow px-4" />
-          </header>
-          <main className="mx-auto max-w-[1200px] px-4 py-20">{children}</main>
-          <Toaster />
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <header className="fixed left-0 top-0 flex h-20 w-full items-center bg-background shadow-md">
+              <Navbar className="mx-auto max-w-[1200px] flex-grow px-4" />
+            </header>
+            <main className="mx-auto max-w-[1200px] px-4 py-20">
+              {children}
+            </main>
+            <Toaster />
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
