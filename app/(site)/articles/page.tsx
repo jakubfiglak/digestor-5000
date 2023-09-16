@@ -5,6 +5,8 @@ import { ScaffoldArticleLink } from '@/modules/articles/components/scaffold-arti
 
 export const dynamic = 'force-static';
 
+export const revalidate = 60;
+
 const ArticlesPage = async () => {
   await generateRssFeed();
   const articles = await getArticlesList();
