@@ -109,7 +109,9 @@ export const ResourceCard = ({ resource, className }: ResourceCardProps) => {
           width={500}
           height={160}
         />
-        <CardDescription className="mb-3">{description}</CardDescription>
+        <CardDescription className="mb-3 line-clamp-3">
+          {description}
+        </CardDescription>
         {articles && articles.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
             <CardDescription>Featured in:</CardDescription>
