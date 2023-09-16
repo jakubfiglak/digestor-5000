@@ -10,8 +10,6 @@ import Link from 'next/link';
 import { getArticle, getArticleSlugsList } from '@/modules/articles/api';
 import { urlFor } from '@/sanity/client';
 
-export const dynamic = 'force-static';
-
 const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
   const { width, height } = getImageDimensions(value);
 
@@ -40,10 +38,6 @@ export async function generateStaticParams() {
   }));
 }
 
-export const revalidate = 60;
-
-export const dynamicParams = false;
-
 type ArticlePageProps = {
   params: { slug: string };
 };
@@ -52,6 +46,10 @@ const ArticlePage: NextPage<ArticlePageProps> = async ({
   params: { slug },
 }) => {
   const article = await getArticle(slug);
+
+  if (!article) {
+    throw new Error(`Article not found: ${slug}`);
+  }
 
   return (
     <>

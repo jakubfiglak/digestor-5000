@@ -3,10 +3,6 @@ import { getArticlesList } from '@/modules/articles/api';
 import { ArticleCard } from '@/modules/articles/components/article-card';
 import { ScaffoldArticleLink } from '@/modules/articles/components/scaffold-article-link';
 
-export const dynamic = 'force-static';
-
-export const revalidate = 60;
-
 const ArticlesPage = async () => {
   await generateRssFeed();
   const articles = await getArticlesList();

@@ -54,6 +54,11 @@ const articleQuery = groq`*[_type == "article" && slug.current == $slug][0] {
 
 export async function getArticle(slug: string) {
   const data = await clientFetch(articleQuery, { slug });
+
+  if (!data) {
+    return null;
+  }
+
   return articleDetailsSchema.parse(data);
 }
 
