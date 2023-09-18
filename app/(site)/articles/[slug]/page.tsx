@@ -7,10 +7,9 @@ import { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { generateRssFeed } from '@/lib/utils/generate-rss-feed';
 import { getArticle, getArticleSlugsList } from '@/modules/articles/api';
 import { urlFor } from '@/sanity/client';
-
-export const dynamic = 'force-static';
 
 const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
   const { width, height } = getImageDimensions(value);
@@ -33,14 +32,15 @@ const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
 };
 
 export async function generateStaticParams() {
-  const articles = await getArticleSlugsList();
+  const [_, articles] = await Promise.all([
+    generateRssFeed(),
+    getArticleSlugsList(),
+  ]);
 
   return articles.map((article) => ({
     slug: article.slug,
   }));
 }
-
-export const dynamicParams = false;
 
 type ArticlePageProps = {
   params: { slug: string };
@@ -50,6 +50,10 @@ const ArticlePage: NextPage<ArticlePageProps> = async ({
   params: { slug },
 }) => {
   const article = await getArticle(slug);
+
+  if (!article) {
+    throw new Error(`Article not found: ${slug}`);
+  }
 
   return (
     <>
