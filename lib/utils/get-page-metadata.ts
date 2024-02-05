@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { env } from '@/env.mjs';
+
 // ? DOCS: https://jsonlink.io/
 const JSON_LINK_API_URL = 'https://jsonlink.io/api/extract';
 
@@ -10,7 +12,9 @@ const jsonLinkResponseSchema = z.object({
 });
 
 export async function getPageMetadata(url: string) {
-  const response = await fetch(`${JSON_LINK_API_URL}?url=${url}`);
+  const response = await fetch(
+    `${JSON_LINK_API_URL}?url=${url}&api_key=${env.JSON_LINK_API_KEY}`
+  );
 
   if (!response.ok) {
     return null;
