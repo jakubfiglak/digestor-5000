@@ -1,9 +1,5 @@
-import {
-  defineArrayMember,
-  defineField,
-  defineType,
-} from '@sanity-typed/types';
 import { groq } from 'next-sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 import { z } from 'zod';
 
 import { env } from '@/env.mjs';

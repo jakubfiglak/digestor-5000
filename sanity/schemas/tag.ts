@@ -1,8 +1,4 @@
-import {
-  defineArrayMember,
-  defineField,
-  defineType,
-} from '@sanity-typed/types';
+import { defineField, defineType } from 'sanity';
 
 export const tag = defineType({
   name: 'tag',
