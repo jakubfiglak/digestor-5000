@@ -1,10 +1,6 @@
 import { MagicWandIcon, ReaderIcon } from '@radix-ui/react-icons';
-import {
-  defineArrayMember,
-  defineField,
-  defineType,
-} from '@sanity-typed/types';
 import { groq } from 'next-sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
 import { z } from 'zod';
 
 import { env } from '@/env.mjs';
@@ -17,7 +13,7 @@ const resourcesQuery = groq`*[_type == "resource"] {
 
 const resourcesSchema = z.array(
   z.object({
-    id: z.string(),
+              id: z.string(),
     articlesCount: z.number(),
     scheduledForPublishing: z.boolean().optional().nullable(),
   })

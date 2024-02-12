@@ -2,12 +2,12 @@ import { clerkClient } from '@clerk/nextjs';
 import { groq } from 'next-sanity';
 import { z } from 'zod';
 
-import { clientFetch } from '@/sanity/client';
+import { client } from '@/sanity/client';
 
 import { resourceDetailsSchema, resourceSchema } from './schemas';
 
 async function enhanceResourcesWithSubmitterData<
-  T extends { submitterId?: string | null }
+  T extends { submitterId?: string | null },
 >(
   resources: Array<T>
 ): Promise<Array<T & { submitter?: { id: string; avatarUrl: string } }>> {
@@ -58,7 +58,7 @@ const resourcesListQuery = groq`*[_type == "resource"] | order(_createdAt desc)[
 }`;
 
 export async function getResourcesList(limit = 10000) {
-  const data = await clientFetch(resourcesListQuery, { limit });
+  const data = await client.fetch(resourcesListQuery, { limit });
 
   const dataWithUsers = await enhanceResourcesWithSubmitterData(data);
   return z.array(resourceDetailsSchema).parse(dataWithUsers);
@@ -69,7 +69,7 @@ const resourcesListByTagQuery = groq`*[_type == "resource" && references(*[_type
 }`;
 
 export async function getResourcesListByTag(slug: string, limit = 10000) {
-  const data = await clientFetch(resourcesListByTagQuery, { slug, limit });
+  const data = await client.fetch(resourcesListByTagQuery, { slug, limit });
 
   const dataWithUsers = await enhanceResourcesWithSubmitterData(data);
   return z.array(resourceDetailsSchema).parse(dataWithUsers);
@@ -80,7 +80,7 @@ const resourcesListByUrlQuery = groq`*[_type == 'resource' && url == $url] {
 }`;
 
 export async function getResourcesListByUrl(url: string) {
-  const data = await clientFetch(resourcesListByUrlQuery, { url });
+  const data = await client.fetch(resourcesListByUrlQuery, { url });
   return z.array(z.object({ id: z.string() })).parse(data);
 }
 
@@ -89,7 +89,7 @@ const resourcesListBySlugQuery = groq`*[_type == 'resource' && slug.current == $
 }`;
 
 export async function getResourcesListBySlug(slug: string) {
-  const data = await clientFetch(resourcesListBySlugQuery, { slug });
+  const data = await client.fetch(resourcesListBySlugQuery, { slug });
   return z.array(z.object({ id: z.string() })).parse(data);
 }
 
@@ -105,6 +105,6 @@ const resourcesListForArticleScaffoldQuery = groq`*[_type == 'resource' && sched
 }`;
 
 export async function getResourcesListForArticleScaffold() {
-  const data = await clientFetch(resourcesListForArticleScaffoldQuery);
+  const data = await client.fetch(resourcesListForArticleScaffoldQuery);
   return z.array(resourceSchema).parse(data);
 }
