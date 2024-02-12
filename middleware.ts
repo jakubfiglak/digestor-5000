@@ -7,6 +7,8 @@ export default authMiddleware({
     '/resources(.*)',
     '/studio(.*)',
     '/protected-route',
+    '/api/revalidate',
+    '/api/revalidate(.*)',
   ],
 });
 
