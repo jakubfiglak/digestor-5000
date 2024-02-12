@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation';
 
 import { getResourcesListByTag } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
-import { getTag } from '@/modules/tags/api';
 import { SubmitResourceLink } from '@/modules/resources/components/submit-resource-link';
+import { getTag } from '@/modules/tags/api';
 
 type ResourceTagPageProps = {
   params: { slug: string };
