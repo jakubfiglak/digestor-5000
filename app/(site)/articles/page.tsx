@@ -4,7 +4,6 @@ import { ArticleCard } from '@/modules/articles/components/article-card';
 import { ScaffoldArticleLink } from '@/modules/articles/components/scaffold-article-link';
 
 const ArticlesPage = async () => {
-  await generateRssFeed();
   const articles = await getArticlesList();
 
   return (
