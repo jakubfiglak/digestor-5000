@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@clerk/nextjs';
+import { revalidateTag } from 'next/cache';
 import type { SanityImageAssetDocument } from 'next-sanity';
 import slugify from 'slugify';
 
@@ -8,7 +9,11 @@ import { getBufferFromRemoteFile } from '@/lib/utils/get-buffer-from-remote-file
 import { getPageMetadata } from '@/lib/utils/get-page-metadata';
 import { client } from '@/sanity/client';
 
-import { getResourcesListBySlug, getResourcesListByUrl } from './api';
+import {
+  cacheTags,
+  getResourcesListBySlug,
+  getResourcesListByUrl,
+} from './api';
 import type { ResourceType } from './schemas';
 
 type UploadRemoteAssetToSanityArgs = {
@@ -112,6 +117,8 @@ export async function submitResource({ title, type, url }: SubmitResourceArgs) {
           }
         : {}),
     });
+
+    revalidateTag(cacheTags.list);
 
     return {
       success: true,
