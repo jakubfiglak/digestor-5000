@@ -7,6 +7,12 @@ import {
 } from '@/modules/articles/schemas';
 import { client } from '@/sanity/client';
 
+export const cacheTags = {
+  list: 'articles-list',
+  details: (slug: string) => `article-details:${slug}`,
+  detailsList: 'article-details-list',
+} as const;
+
 const coreArticleFields = groq`
   "id": _id,
   title,
@@ -21,7 +27,12 @@ const articlesListQuery = groq`*[_type == "article"] | order(_createdAt desc)[0.
 }`;
 
 export async function getArticlesList(limit = 10000) {
-  const data = await client.fetch(articlesListQuery, { limit });
+  const data = await client.fetch(
+    articlesListQuery,
+    { limit },
+    { next: { tags: [cacheTags.list] } }
+  );
+
   return z.array(articleSchema).parse(data);
 }
 
@@ -56,7 +67,7 @@ export async function getArticle(slug: string) {
   const data = await client.fetch(
     articleQuery,
     { slug },
-    { next: { revalidate: 1 } }
+    { next: { tags: [cacheTags.details(slug)] } }
   );
   return articleDetailsSchema.parse(data);
 }
@@ -66,7 +77,12 @@ const articlesDetailsListQuery = groq`*[_type == "article"] {
 }`;
 
 export async function getArticlesDetailsList() {
-  const data = await client.fetch(articlesDetailsListQuery);
+  const data = await client.fetch(
+    articlesDetailsListQuery,
+    {},
+    { next: { tags: [cacheTags.detailsList] } }
+  );
+
   return z.array(articleDetailsSchema).parse(data);
 }
 
@@ -78,8 +94,9 @@ export async function getArticleSlugsList() {
   const data = await client.fetch(
     articleSlugsListQuery,
     {},
-    { next: { revalidate: 1 } }
+    { next: { tags: [cacheTags.list] } }
   );
+
   return z.array(z.object({ slug: z.string() })).parse(data);
 }
 
@@ -88,6 +105,11 @@ const articlesListBySlugQuery = groq`*[_type == 'article' && slug.current == $sl
 }`;
 
 export async function getArticlesListBySlug(slug: string) {
-  const data = await client.fetch(articlesListBySlugQuery, { slug });
+  const data = await client.fetch(
+    articlesListBySlugQuery,
+    { slug },
+    { next: { tags: [cacheTags.list] } }
+  );
+
   return z.array(z.object({ id: z.string() })).parse(data);
 }

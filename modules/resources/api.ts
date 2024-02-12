@@ -6,6 +6,10 @@ import { client } from '@/sanity/client';
 
 import { resourceDetailsSchema, resourceSchema } from './schemas';
 
+export const cacheTags = {
+  list: 'resources-list',
+} as const;
+
 async function enhanceResourcesWithSubmitterData<
   T extends { submitterId?: string | null },
 >(
@@ -58,7 +62,11 @@ const resourcesListQuery = groq`*[_type == "resource"] | order(_createdAt desc)[
 }`;
 
 export async function getResourcesList(limit = 10000) {
-  const data = await client.fetch(resourcesListQuery, { limit });
+  const data = await client.fetch(
+    resourcesListQuery,
+    { limit },
+    { next: { tags: [cacheTags.list] } }
+  );
 
   const dataWithUsers = await enhanceResourcesWithSubmitterData(data);
   return z.array(resourceDetailsSchema).parse(dataWithUsers);
@@ -69,7 +77,11 @@ const resourcesListByTagQuery = groq`*[_type == "resource" && references(*[_type
 }`;
 
 export async function getResourcesListByTag(slug: string, limit = 10000) {
-  const data = await client.fetch(resourcesListByTagQuery, { slug, limit });
+  const data = await client.fetch(
+    resourcesListByTagQuery,
+    { slug, limit },
+    { next: { tags: [cacheTags.list] } }
+  );
 
   const dataWithUsers = await enhanceResourcesWithSubmitterData(data);
   return z.array(resourceDetailsSchema).parse(dataWithUsers);
@@ -80,7 +92,12 @@ const resourcesListByUrlQuery = groq`*[_type == 'resource' && url == $url] {
 }`;
 
 export async function getResourcesListByUrl(url: string) {
-  const data = await client.fetch(resourcesListByUrlQuery, { url });
+  const data = await client.fetch(
+    resourcesListByUrlQuery,
+    { url },
+    { next: { tags: [cacheTags.list] } }
+  );
+
   return z.array(z.object({ id: z.string() })).parse(data);
 }
 
@@ -89,7 +106,12 @@ const resourcesListBySlugQuery = groq`*[_type == 'resource' && slug.current == $
 }`;
 
 export async function getResourcesListBySlug(slug: string) {
-  const data = await client.fetch(resourcesListBySlugQuery, { slug });
+  const data = await client.fetch(
+    resourcesListBySlugQuery,
+    { slug },
+    { next: { tags: [cacheTags.list] } }
+  );
+
   return z.array(z.object({ id: z.string() })).parse(data);
 }
 
@@ -105,6 +127,11 @@ const resourcesListForArticleScaffoldQuery = groq`*[_type == 'resource' && sched
 }`;
 
 export async function getResourcesListForArticleScaffold() {
-  const data = await client.fetch(resourcesListForArticleScaffoldQuery);
+  const data = await client.fetch(
+    resourcesListForArticleScaffoldQuery,
+    {},
+    { next: { tags: [cacheTags.list] } }
+  );
+
   return z.array(resourceSchema).parse(data);
 }

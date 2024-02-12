@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@clerk/nextjs';
+import { revalidateTag } from 'next/cache';
 import slugify from 'slugify';
 
 import { checkIsEditor } from '@/lib/utils/check-is-editor';
@@ -9,9 +10,10 @@ import {
   buildParagraph,
   buildResourceListItem,
 } from '@/lib/utils/portable-text';
-import { getArticlesListBySlug } from '@/modules/articles/api';
 import { getResourcesListForArticleScaffold } from '@/modules/resources/api';
 import { client } from '@/sanity/client';
+
+import { cacheTags, getArticlesListBySlug } from './api';
 
 async function generateArticleContent() {
   const resources = await getResourcesListForArticleScaffold();
@@ -86,6 +88,9 @@ export async function scaffoldArticle({ title }: ScaffoldArticleArgs) {
       slug: { current: slug },
       content,
     });
+
+    revalidateTag(cacheTags.list);
+    revalidateTag(cacheTags.detailsList);
 
     return {
       success: true,

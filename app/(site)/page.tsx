@@ -1,17 +1,15 @@
-import { currentUser } from '@clerk/nextjs';
 import { ArrowRightIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 
-import { buttonVariants } from '@/components/ui/button';
 import { getArticlesList } from '@/modules/articles/api';
 import { ArticleCard } from '@/modules/articles/components/article-card';
 import { ScaffoldArticleLink } from '@/modules/articles/components/scaffold-article-link';
 import { getResourcesList } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
+import { SubmitResourceLink } from '@/modules/resources/components/submit-resource-link';
 
 async function Home() {
-  const [user, articles, resources] = await Promise.all([
-    currentUser(),
+  const [articles, resources] = await Promise.all([
     getArticlesList(3),
     getResourcesList(3),
   ]);
@@ -43,14 +41,7 @@ async function Home() {
         <div className="mb-6">
           <div className="flex items-center gap-4">
             <h2 className="text-3xl font-bold">Latest resources</h2>
-            {user && (
-              <Link
-                href="/creator/resources"
-                className={buttonVariants({ variant: 'outline' })}
-              >
-                Submit
-              </Link>
-            )}
+            <SubmitResourceLink />
           </div>
           <Link
             href="/resources"

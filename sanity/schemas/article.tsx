@@ -13,7 +13,7 @@ const resourcesQuery = groq`*[_type == "resource"] {
 
 const resourcesSchema = z.array(
   z.object({
-              id: z.string(),
+    id: z.string(),
     articlesCount: z.number(),
     scheduledForPublishing: z.boolean().optional().nullable(),
   })

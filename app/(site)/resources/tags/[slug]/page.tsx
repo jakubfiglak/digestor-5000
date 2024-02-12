@@ -1,11 +1,9 @@
-import { currentUser } from '@clerk/nextjs';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { buttonVariants } from '@/components/ui/button';
 import { getResourcesListByTag } from '@/modules/resources/api';
 import { ResourceCard } from '@/modules/resources/components/resource-card';
+import { SubmitResourceLink } from '@/modules/resources/components/submit-resource-link';
 import { getTag } from '@/modules/tags/api';
 
 type ResourceTagPageProps = {
@@ -13,8 +11,7 @@ type ResourceTagPageProps = {
 };
 
 const ResourceTagPage: NextPage<ResourceTagPageProps> = async ({ params }) => {
-  const [user, tag, resources] = await Promise.all([
-    currentUser(),
+  const [tag, resources] = await Promise.all([
     getTag(params.slug),
     getResourcesListByTag(params.slug),
   ]);
@@ -27,14 +24,7 @@ const ResourceTagPage: NextPage<ResourceTagPageProps> = async ({ params }) => {
     <>
       <div className="my-6 text-center">
         <h2 className="mb-6 text-4xl font-bold">{tag.title}</h2>
-        {user && (
-          <Link
-            href="/creator/resources"
-            className={buttonVariants({ variant: 'outline', size: 'lg' })}
-          >
-            Submit a resource
-          </Link>
-        )}
+        <SubmitResourceLink>Submit a resource</SubmitResourceLink>
       </div>
       {tag.description && <p className="mb-4">{tag.description}</p>}
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
