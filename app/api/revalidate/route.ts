@@ -1,5 +1,5 @@
 import { revalidateTag } from 'next/cache';
-import type { NextRequest } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { parseBody } from 'next-sanity/webhook';
 
 import { env } from '@/env.mjs';
@@ -32,6 +32,13 @@ export async function POST(req: NextRequest) {
     if (body._type === 'resource') {
       revalidateTag(resourcesCacheTags.list);
     }
+
+    return NextResponse.json({
+      status: 200,
+      revalidated: true,
+      now: Date.now(),
+      body,
+    });
   } catch (error) {
     console.error(error);
     return new Response(
