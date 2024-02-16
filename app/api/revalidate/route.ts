@@ -3,7 +3,6 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { parseBody } from 'next-sanity/webhook';
 
 import { env } from '@/env.mjs';
-import { generateRssFeed } from '@/lib/utils/generate-rss-feed';
 import { cacheTags as articlesCacheTags } from '@/modules/articles/api';
 import { cacheTags as resourcesCacheTags } from '@/modules/resources/api';
 
@@ -28,7 +27,6 @@ export async function POST(req: NextRequest) {
       if (body.slug) {
         revalidateTag(articlesCacheTags.details(body.slug));
       }
-      await generateRssFeed();
     }
 
     if (body._type === 'resource') {

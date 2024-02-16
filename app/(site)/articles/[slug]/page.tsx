@@ -7,6 +7,7 @@ import { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { generateRssFeed } from '@/lib/utils/generate-rss-feed';
 import { getArticle, getArticleSlugsList } from '@/modules/articles/api';
 import { urlFor } from '@/sanity/client';
 
@@ -31,6 +32,12 @@ const CustomImage = ({ value }: PortableTextTypeComponentProps<any>) => {
 };
 
 export async function generateStaticParams() {
+  try {
+    await generateRssFeed();
+  } catch (error) {
+    console.log(error);
+  }
+
   const articles = await getArticleSlugsList();
 
   return articles.map((article) => ({
